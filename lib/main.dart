@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:corgis_ai_app/pages/start_page.dart';
-import 'package:corgis_ai_app/pages/start_page.dart';
+import 'package:flutter_splash_screen/flutter_splash_screen.dart';
 
 void main() async {
   runApp(const App());
@@ -17,6 +17,13 @@ class AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    hideScreen();
+  }
+
+  Future<void> hideScreen() async {
+    Future.delayed(const Duration(milliseconds: 6000), () {
+      FlutterSplashScreen.hide();
+    });
   }
 
   @override

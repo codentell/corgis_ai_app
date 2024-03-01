@@ -3,6 +3,8 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:rive/rive.dart';
 import 'package:corgis_ai_app/components/TyperAnimatedTextCustom.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/gestures.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);
@@ -12,6 +14,14 @@ class StartPage extends StatefulWidget {
 }
 
 class StartPageState extends State<StartPage> {
+  launchURL(url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,6 +86,50 @@ class StartPageState extends State<StartPage> {
                                       repeatForever: true,
                                       isRepeatingAnimation: true,
                                       animatedTexts: [
+                                        TyperAnimatedTextCustom([
+                                          const TextSpan(
+                                            text: 'about ',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontFamily: 'Eina',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const TextSpan(
+                                            text: 'coding',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontFamily: 'Eina',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )
+                                        ],
+                                            speed: const Duration(
+                                                milliseconds: 100)),
+                                        TyperAnimatedTextCustom([
+                                          const TextSpan(
+                                            text: 'about ',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontFamily: 'Eina',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const TextSpan(
+                                            text: 'AI',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontFamily: 'Eina',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )
+                                        ],
+                                            speed: const Duration(
+                                                milliseconds: 100)),
                                         TyperAnimatedTextCustom([
                                           const TextSpan(
                                             text: 'py',
@@ -310,226 +364,6 @@ class StartPageState extends State<StartPage> {
                                       ))
                                 ]))
                       ]),
-                  //   const SizedBox(
-                  //       height: 400,
-                  //       width: 400,
-                  //       child: RiveAnimation.network(
-                  //           "https://s3.amazonaws.com/cdn.codewithcorgis.com/ai/banner.riv",
-                  //           fit: BoxFit.cover,
-                  //           stateMachines: ["game"])),
-                  //   Container(
-                  //       child: const Text.rich(TextSpan(
-                  //           style: TextStyle(
-                  //             color: Colors.white,
-                  //             fontSize: 65,
-                  //             fontFamily: 'Eina',
-                  //             fontWeight: FontWeight.bold,
-                  //           ),
-                  //           text: 'corgis',
-                  //           children: <InlineSpan>[
-                  //         TextSpan(
-                  //           text: '.',
-                  //           style: TextStyle(
-                  //             color: Colors.white,
-                  //             fontSize: 65,
-                  //             fontFamily: 'Eina',
-                  //             fontWeight: FontWeight.bold,
-                  //           ),
-                  //         ),
-                  //         TextSpan(
-                  //           text: 'ai',
-                  //           style: TextStyle(
-                  //             color: Color(0xFFFEBF4C),
-                  //             fontSize: 65,
-                  //             fontFamily: 'Eina',
-                  //             fontWeight: FontWeight.bold,
-                  //           ),
-                  //         )
-                  //       ]))),
-                  //   SizedBox(
-                  //       width: 450,
-                  //       child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.center,
-                  //           children: [
-                  //             const Text("Learn ",
-                  //                 style: TextStyle(
-                  //                   color: Colors.white,
-                  //                   fontSize: 20,
-                  //                   fontFamily: 'Eina',
-                  //                   fontWeight: FontWeight.bold,
-                  //                 )),
-                  //             AnimatedTextKit(
-                  //                 repeatForever: true,
-                  //                 isRepeatingAnimation: true,
-                  //                 animatedTexts: [
-                  //                   TyperAnimatedTextCustom([
-                  //                     const TextSpan(
-                  //                       text: 'py',
-                  //                       style: TextStyle(
-                  //                         color: Color(0xFF26A3FF),
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                     ),
-                  //                     const TextSpan(
-                  //                       text: 'thon',
-                  //                       style: TextStyle(
-                  //                         color: Colors.white,
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                     )
-                  //                   ],
-                  //                       speed:
-                  //                           const Duration(milliseconds: 100)),
-                  //                   TyperAnimatedTextCustom([
-                  //                     const TextSpan(
-                  //                       text: 'r',
-                  //                       style: TextStyle(
-                  //                         color: Color(0xFFF49600),
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                     ),
-                  //                     const TextSpan(
-                  //                       text: 'u',
-                  //                       style: TextStyle(
-                  //                         color: Colors.white,
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                     ),
-                  //                     const TextSpan(
-                  //                       text: 's',
-                  //                       style: TextStyle(
-                  //                         color: Color(0xFFF49600),
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                     ),
-                  //                     const TextSpan(
-                  //                       text: 't',
-                  //                       style: TextStyle(
-                  //                         color: Colors.white,
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                     )
-                  //                   ],
-                  //                       speed:
-                  //                           const Duration(milliseconds: 100)),
-                  //                   TyperAnimatedTextCustom([
-                  //                     const TextSpan(
-                  //                       text: 'p',
-                  //                       style: TextStyle(
-                  //                         color: Color(0xFFFF0078),
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                     ),
-                  //                     const TextSpan(
-                  //                       text: 'an',
-                  //                       style: TextStyle(
-                  //                         color: Colors.white,
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                     ),
-                  //                     const TextSpan(
-                  //                         text: 'd',
-                  //                         style: TextStyle(
-                  //                           color: Color(0xFFFF0078),
-                  //                           fontSize: 20,
-                  //                           fontFamily: 'Eina',
-                  //                           fontWeight: FontWeight.bold,
-                  //                         )),
-                  //                     const TextSpan(
-                  //                         text: 'as',
-                  //                         style: TextStyle(
-                  //                           color: Colors.white,
-                  //                           fontSize: 20,
-                  //                           fontFamily: 'Eina',
-                  //                           fontWeight: FontWeight.bold,
-                  //                         ))
-                  //                   ],
-                  //                       speed:
-                  //                           const Duration(milliseconds: 100)),
-                  //                   TyperAnimatedText('javascript',
-                  //                       textStyle: const TextStyle(
-                  //                         color: Color(0xFFf1e05a),
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                       speed:
-                  //                           const Duration(milliseconds: 100)),
-                  //                   TyperAnimatedText('matplotlib',
-                  //                       textStyle: const TextStyle(
-                  //                         color: Color(0xFFD0FF83),
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                       speed:
-                  //                           const Duration(milliseconds: 100)),
-                  //                   TyperAnimatedText('html',
-                  //                       textStyle: const TextStyle(
-                  //                         color: Colors.orange,
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                       speed:
-                  //                           const Duration(milliseconds: 100)),
-                  //                   TyperAnimatedText('git',
-                  //                       textStyle: const TextStyle(
-                  //                         color: Color(0xFFFF7E00),
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                       speed:
-                  //                           const Duration(milliseconds: 100)),
-                  //                   TyperAnimatedText('typescript',
-                  //                       textStyle: const TextStyle(
-                  //                         color: Color(0xFF0278CC),
-                  //                         fontSize: 20,
-                  //                         fontFamily: 'Eina',
-                  //                         fontWeight: FontWeight.bold,
-                  //                       ),
-                  //                       speed:
-                  //                           const Duration(milliseconds: 100)),
-                  //                 ]),
-                  //             const Text(" with cute AI-powered",
-                  //                 style: TextStyle(
-                  //                   color: Colors.white,
-                  //                   fontSize: 20,
-                  //                   fontFamily: 'Eina',
-                  //                   fontWeight: FontWeight.bold,
-                  //                 ))
-                  //           ])),
-                  //   const SizedBox(
-                  //       width: 450,
-                  //       child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.center,
-                  //           children: [
-                  //             Text(" friends and gamified lessons!",
-                  //                 style: TextStyle(
-                  //                   color: Colors.white,
-                  //                   fontSize: 20,
-                  //                   fontFamily: 'Eina',
-                  //                   fontWeight: FontWeight.bold,
-                  //                 ))
-                  //           ])),
-                  // ])),
                 )),
             bottomNavigationBar: Container(
                 padding: const EdgeInsets.only(
@@ -719,16 +553,67 @@ class StartPageState extends State<StartPage> {
                                   }))),
                       Expanded(
                           child: Container(
-                        child: Center(
-                            child: Text(
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontFamily: 'Eina',
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                                "By continuing, you agree to corgis.ai Terms of Service and Privacy Policy")),
-                      ))
+                              child: Center(
+                                  child: Text.rich(
+                                      textAlign: TextAlign.center,
+                                      TextSpan(children: [
+                                        TextSpan(
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontFamily: 'Eina',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            text:
+                                                "By continuing, you agree to corgis."),
+                                        TextSpan(
+                                            style: TextStyle(
+                                              color: Color(0xFFFEBF4C),
+                                              fontSize: 14,
+                                              fontFamily: 'Eina',
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            text: "ai\n"),
+                                        TextSpan(
+                                          text: "Terms of Service",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontFamily: 'Eina',
+                                            fontWeight: FontWeight.bold,
+                                            decorationColor: Colors.white,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () => launchURL(
+                                                "https://corgis.ai/terms"),
+                                        ),
+                                        TextSpan(
+                                          text: " and ",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontFamily: 'Eina',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: "Privacy Policy",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                            fontFamily: 'Eina',
+                                            fontWeight: FontWeight.bold,
+                                            decorationColor: Colors.white,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () => launchURL(
+                                                "https://corgis.ai/terms"),
+                                        ),
+                                      ])))))
                     ]))));
   }
 }
