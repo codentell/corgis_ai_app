@@ -12,6 +12,7 @@ class HelloPage extends StatefulWidget {
 class WelcomePageState extends State<HelloPage> {
   SMIInput<bool>? isContinue;
   bool disabled = false;
+  bool isContinueCheck = false;
 
   void onRiveInit(Artboard artboard) {
     final controller = StateMachineController.fromArtboard(artboard, 'game');
@@ -21,28 +22,66 @@ class WelcomePageState extends State<HelloPage> {
   }
 
   @override
+  initState() {
+    setState(() {
+      isContinueCheck = false;
+      disabled = false;
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: const Color(0xFF0A062F),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-            backgroundColor: Color(0xFF0A062F),
-            body: Center(
+            backgroundColor: !isContinueCheck
+                ? const Color(0xFF1B282E)
+                : const Color(0xFF0A062F),
+            appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(70),
                 child: Container(
+                  height: 70,
+                  color: !isContinueCheck
+                      ? const Color(0xFF1B282E)
+                      : const Color(0xFF0A062F),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: 50,
+                          height: 50,
+                          color: !isContinueCheck
+                              ? const Color(0xFF1B282E)
+                              : const Color(0xFF0A062F),
+                          child: IconButton(
+                              icon: const Icon(Icons.arrow_back,
+                                  color: Colors.white),
+                              onPressed: () => {Navigator.pop(context, true)})),
+                      const Expanded(
+                          flex: 5,
+                          child: SizedBox(
+                            width: 200,
+                            height: 20,
+                          )),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        color: !isContinueCheck
+                            ? const Color(0xFF1B282E)
+                            : const Color(0xFF0A062F),
+                      ),
+                    ],
+                  ),
+                )),
+            body: Center(
+                child: SizedBox(
               width: 350,
               height: 350,
               child: RiveAnimation.network(
                 'https://s3.amazonaws.com/cdn.codewithcorgis.com/ai/welcome.riv',
                 fit: BoxFit.cover,
                 alignment: Alignment.center,
-                stateMachines: ["game"],
+                stateMachines: const ["game"],
                 onInit: onRiveInit,
               ),
             )),
@@ -50,7 +89,9 @@ class WelcomePageState extends State<HelloPage> {
                 padding: const EdgeInsets.only(
                     top: 20, right: 20, left: 20, bottom: 20),
                 height: 125,
-                color: const Color(0xFF0A062F),
+                color: !isContinueCheck
+                    ? const Color(0xFF1B282E)
+                    : const Color(0xFF0A062F),
                 child: Center(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -62,6 +103,7 @@ class WelcomePageState extends State<HelloPage> {
                                     const Duration(milliseconds: 1000), () {
                                   setState(() {
                                     disabled = !disabled;
+                                    isContinueCheck = true;
                                   });
                                   isContinue?.value = true;
                                 });
@@ -91,10 +133,10 @@ class WelcomePageState extends State<HelloPage> {
                                                   : 500.0,
                                               decoration: BoxDecoration(
                                                   color: disabled
-                                                      ? Colors.grey
-                                                      : Color(0xFFA2FF66),
+                                                      ? const Color(0xFF202F36)
+                                                      : const Color(0xFFA2FF66),
                                                   borderRadius:
-                                                      BorderRadius.only(
+                                                      const BorderRadius.only(
                                                     topRight:
                                                         Radius.circular(10),
                                                     topLeft:
@@ -119,16 +161,21 @@ class WelcomePageState extends State<HelloPage> {
                                                             ? 70
                                                             : 150.0,
                                                         color: disabled
-                                                            ? Colors.grey
-                                                            : Color(0xFFB9FF8C),
+                                                            ? const Color(
+                                                                0xFF202F36)
+                                                            : const Color(
+                                                                0xFFB9FF8C),
                                                       ),
                                                     ),
-                                                    const Center(
+                                                    Center(
                                                         child: Text(
                                                       "continue",
                                                       style: TextStyle(
-                                                        color:
-                                                            Color(0xFF1a1e4c),
+                                                        color: disabled
+                                                            ? const Color(
+                                                                0xFF49C1F9)
+                                                            : const Color(
+                                                                0xFF1a1e4c),
                                                         fontSize: 21,
                                                         fontFamily: 'Eina',
                                                         fontWeight:
@@ -150,8 +197,10 @@ class WelcomePageState extends State<HelloPage> {
                                                             ? 70
                                                             : 150.0,
                                                         color: disabled
-                                                            ? Colors.grey
-                                                            : Color(0xFFB9FF8C),
+                                                            ? const Color(
+                                                                0xFF202F36)
+                                                            : const Color(
+                                                                0xFFB9FF8C),
                                                       ),
                                                     ),
                                                   ])),
@@ -166,7 +215,7 @@ class WelcomePageState extends State<HelloPage> {
                                             decoration: BoxDecoration(
                                               border: Border.all(
                                                 color: disabled
-                                                    ? Color(0xFF676767)
+                                                    ? const Color(0xFF384650)
                                                     : const Color(0xFF69EC15),
                                                 width: 3,
                                               ),
@@ -177,7 +226,7 @@ class WelcomePageState extends State<HelloPage> {
                                                 bottomLeft: Radius.circular(10),
                                               ),
                                               color: disabled
-                                                  ? Color(0xFF676767)
+                                                  ? const Color(0xFF384650)
                                                   : const Color(0xFF69EC15),
                                             ),
                                           ),
