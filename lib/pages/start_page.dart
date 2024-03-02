@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 
 class StartPage extends StatefulWidget {
-  const StartPage({Key? key}) : super(key: key);
+  const StartPage({super.key});
 
   @override
   StartPageState createState() => StartPageState();
@@ -88,7 +88,7 @@ class StartPageState extends State<StartPage> {
                                       animatedTexts: [
                                         TyperAnimatedTextCustom([
                                           const TextSpan(
-                                            text: 'about ',
+                                            text: 'llm ',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
@@ -96,30 +96,12 @@ class StartPageState extends State<StartPage> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          const TextSpan(
-                                            text: 'coding',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                              fontFamily: 'Eina',
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          )
                                         ],
                                             speed: const Duration(
                                                 milliseconds: 100)),
                                         TyperAnimatedTextCustom([
                                           const TextSpan(
-                                            text: 'about ',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                              fontFamily: 'Eina',
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const TextSpan(
-                                            text: 'AI',
+                                            text: 'prompts',
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
@@ -278,7 +260,7 @@ class StartPageState extends State<StartPage> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          TextSpan(
+                                          const TextSpan(
                                             text: 'pl',
                                             style: TextStyle(
                                               color: Color(0xFFD0FF83),
@@ -376,7 +358,7 @@ class StartPageState extends State<StartPage> {
                       Expanded(
                           child: GestureDetector(
                               onTap: () {
-                                Navigator.of(context).pushNamed('/welcome');
+                                Navigator.of(context).pushNamed('/welcome/0');
                               },
                               child: CustomAnimationBuilder<double>(
                                   tween: Tween<double>(begin: 0.0, end: 1.0),
@@ -552,68 +534,65 @@ class StartPageState extends State<StartPage> {
                                         ]));
                                   }))),
                       Expanded(
-                          child: Container(
-                              child: Center(
-                                  child: Text.rich(
-                                      textAlign: TextAlign.center,
-                                      TextSpan(children: [
-                                        TextSpan(
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontFamily: 'Eina',
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            text:
-                                                "By continuing, you agree to corgis."),
-                                        TextSpan(
-                                            style: TextStyle(
-                                              color: Color(0xFFFEBF4C),
-                                              fontSize: 14,
-                                              fontFamily: 'Eina',
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            text: "ai\n"),
-                                        TextSpan(
-                                          text: "Terms of Service",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontFamily: 'Eina',
-                                            fontWeight: FontWeight.bold,
-                                            decorationColor: Colors.white,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                          recognizer: TapGestureRecognizer()
-                                            ..onTap = () => launchURL(
-                                                "https://corgis.ai/terms"),
+                          child: Center(
+                              child: Text.rich(
+                                  textAlign: TextAlign.center,
+                                  TextSpan(children: [
+                                    const TextSpan(
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontFamily: 'Eina',
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        TextSpan(
-                                          text: " and ",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontFamily: 'Eina',
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                        text:
+                                            "By continuing, you agree to corgis."),
+                                    const TextSpan(
+                                        style: TextStyle(
+                                          color: Color(0xFFFEBF4C),
+                                          fontSize: 14,
+                                          fontFamily: 'Eina',
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        TextSpan(
-                                          text: "Privacy Policy",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontFamily: 'Eina',
-                                            fontWeight: FontWeight.bold,
-                                            decorationColor: Colors.white,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                          recognizer: TapGestureRecognizer()
-                                            ..onTap = () => launchURL(
-                                                "https://corgis.ai/terms"),
-                                        ),
-                                      ])))))
+                                        text: "ai\n"),
+                                    TextSpan(
+                                      text: "Terms of Service",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontFamily: 'Eina',
+                                        fontWeight: FontWeight.bold,
+                                        decorationColor: Colors.white,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () => launchURL(
+                                            "https://corgis.ai/terms"),
+                                    ),
+                                    const TextSpan(
+                                      text: " and ",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontFamily: 'Eina',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: "Privacy Policy",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontFamily: 'Eina',
+                                        fontWeight: FontWeight.bold,
+                                        decorationColor: Colors.white,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () => launchURL(
+                                            "https://corgis.ai/terms"),
+                                    ),
+                                  ]))))
                     ]))));
   }
 }
