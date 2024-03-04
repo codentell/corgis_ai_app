@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAicdl8wfcgkkLhwrjsomJ_qPW0oUARJ_I</string>
+	<key>GCM_SENDER_ID</key>
+	<string>108602706908</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.corgisAiApp</string>
+	<key>PROJECT_ID</key>
+	<string>corgis-ai-push-notification</string>
+	<key>STORAGE_BUCKET</key>
+	<string>corgis-ai-push-notification.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:108602706908:ios:003f74ca08a59f4cc85d19</string>
+</dict>
+</plist>

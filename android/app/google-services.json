@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "108602706908",
+    "project_id": "corgis-ai-push-notification",
+    "storage_bucket": "corgis-ai-push-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108602706908:android:af041d9b9185d31ec85d19",
+        "android_client_info": {
+          "package_name": "com.example.corgis_ai_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARqzh4AlAXPr_y2bQP3mbSd0fJpGydoM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

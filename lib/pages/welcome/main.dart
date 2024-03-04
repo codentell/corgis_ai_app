@@ -1,3 +1,4 @@
+import 'package:corgis_ai_app/pages/welcome/screen/intro.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/onboard.dart';
 import 'package:flutter/material.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/hello.dart';
@@ -16,9 +17,11 @@ class WelcomePageState extends State<WelcomePage> {
     final String id = widget.id;
 
     if (id == "0") {
-      return const HelloPage();
+      return const IntroPage();
     } else if (id == "1") {
-      return OnboardPage();
+      return const HelloPage();
+    } else if (id == "2") {
+      return const OnboardPage();
     } else {
       return Container(color: Colors.green);
     }
