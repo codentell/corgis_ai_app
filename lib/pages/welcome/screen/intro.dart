@@ -1,5 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:corgis_ai_app/components/TyperAnimatedTextCustom.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:rive/rive.dart';
@@ -89,11 +87,10 @@ class IntroPageState extends State<IntroPage> {
                                                       500
                                                   ? 400
                                                   : 500.0,
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      const Color(0xFFA2FF66),
+                                              decoration: const BoxDecoration(
+                                                  color: Color(0xFFA2FF66),
                                                   borderRadius:
-                                                      const BorderRadius.only(
+                                                      BorderRadius.only(
                                                     topRight:
                                                         Radius.circular(10),
                                                     topLeft:

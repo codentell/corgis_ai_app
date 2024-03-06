@@ -1,3 +1,4 @@
+import 'package:corgis_ai_app/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:corgis_ai_app/pages/start_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -6,11 +7,14 @@ import 'package:corgis_ai_app/pages/home_page.dart';
 import 'package:corgis_ai_app/pages/welcome/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  await Firebase.initializeApp();
+
   await Supabase.initialize(
     url: 'https://drurtwyuweespqltqbyw.supabase.co',
     anonKey:
@@ -42,8 +46,14 @@ class AppState extends State<App> {
       setState(() {
         _user = data.session?.user;
       });
+      //if (data.event == AuthChangeEvent.signedIn) {}
+
       print('User: $_user');
     });
+
+    // FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
+    //   await setFcmToken(fcmToken);
+    // });
   }
 
   @override
@@ -59,6 +69,7 @@ class AppState extends State<App> {
       title: 'corgis.ai',
       initialRoute: _user == null ? '/start' : '/home',
       routes: {
+        "/signup": (context) => const SignupPage(),
         "/login": (context) => const LoginPage(),
         "/start": (context) => const StartPage(),
         "/home": (context) => const HomePage(),

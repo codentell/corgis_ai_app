@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAicdl8wfcgkkLhwrjsomJ_qPW0oUARJ_I</string>
+	<string>AIzaSyDR8yEPsn-X5iGvAZohXr5w3ZwNwzFqSCI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>108602706908</string>
+	<string>162245545637</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.corgisAiApp</string>
+	<string>ai.corgis.corgisApp</string>
 	<key>PROJECT_ID</key>
-	<string>corgis-ai-push-notification</string>
+	<string>corgis-ai-push-notifications</string>
 	<key>STORAGE_BUCKET</key>
-	<string>corgis-ai-push-notification.appspot.com</string>
+	<string>corgis-ai-push-notifications.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:108602706908:ios:003f74ca08a59f4cc85d19</string>
+	<string>1:162245545637:ios:7878cd794b3bedb15e074c</string>
 </dict>
 </plist>

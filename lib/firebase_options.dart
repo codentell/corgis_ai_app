@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDTK9JQqj5aRC9M8oCMyG8MY5YySkudpnI',
-    appId: '1:108602706908:web:2147d5c1ad8a324ec85d19',
-    messagingSenderId: '108602706908',
-    projectId: 'corgis-ai-push-notification',
-    authDomain: 'corgis-ai-push-notification.firebaseapp.com',
-    storageBucket: 'corgis-ai-push-notification.appspot.com',
-    measurementId: 'G-89Y133WDSH',
+    apiKey: 'AIzaSyD89AE8REmywyML_pIvxbM3iQ9iaR0ybtQ',
+    appId: '1:162245545637:web:f3ec8f13be9df07b5e074c',
+    messagingSenderId: '162245545637',
+    projectId: 'corgis-ai-push-notifications',
+    authDomain: 'corgis-ai-push-notifications.firebaseapp.com',
+    storageBucket: 'corgis-ai-push-notifications.appspot.com',
+    measurementId: 'G-NZW5DGDP3H',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyARqzh4AlAXPr_y2bQP3mbSd0fJpGydoM0',
-    appId: '1:108602706908:android:af041d9b9185d31ec85d19',
-    messagingSenderId: '108602706908',
-    projectId: 'corgis-ai-push-notification',
-    storageBucket: 'corgis-ai-push-notification.appspot.com',
+    apiKey: 'AIzaSyCRuZz0o2Mmi0GeNbFdnrtlTHhqu6lnDYo',
+    appId: '1:162245545637:android:598fd3592e1a05365e074c',
+    messagingSenderId: '162245545637',
+    projectId: 'corgis-ai-push-notifications',
+    storageBucket: 'corgis-ai-push-notifications.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAicdl8wfcgkkLhwrjsomJ_qPW0oUARJ_I',
-    appId: '1:108602706908:ios:003f74ca08a59f4cc85d19',
-    messagingSenderId: '108602706908',
-    projectId: 'corgis-ai-push-notification',
-    storageBucket: 'corgis-ai-push-notification.appspot.com',
-    iosBundleId: 'com.example.corgisAiApp',
+    apiKey: 'AIzaSyDR8yEPsn-X5iGvAZohXr5w3ZwNwzFqSCI',
+    appId: '1:162245545637:ios:7878cd794b3bedb15e074c',
+    messagingSenderId: '162245545637',
+    projectId: 'corgis-ai-push-notifications',
+    storageBucket: 'corgis-ai-push-notifications.appspot.com',
+    iosBundleId: 'ai.corgis.corgisApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAicdl8wfcgkkLhwrjsomJ_qPW0oUARJ_I',
-    appId: '1:108602706908:ios:08ba5b2ad456470bc85d19',
-    messagingSenderId: '108602706908',
-    projectId: 'corgis-ai-push-notification',
-    storageBucket: 'corgis-ai-push-notification.appspot.com',
+    apiKey: 'AIzaSyDR8yEPsn-X5iGvAZohXr5w3ZwNwzFqSCI',
+    appId: '1:162245545637:ios:2ec24a160e7d12e65e074c',
+    messagingSenderId: '162245545637',
+    projectId: 'corgis-ai-push-notifications',
+    storageBucket: 'corgis-ai-push-notifications.appspot.com',
     iosBundleId: 'com.example.corgisAiApp.RunnerTests',
   );
 }

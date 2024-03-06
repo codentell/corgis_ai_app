@@ -1,6 +1,5 @@
 import 'package:corgis_ai_app/components/progress.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/language.dart';
-import 'package:corgis_ai_app/pages/welcome/screen/referral.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:corgis_ai_app/constants/index.dart';

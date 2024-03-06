@@ -5,6 +5,7 @@ import 'package:rive/rive.dart';
 import 'package:corgis_ai_app/components/TyperAnimatedTextCustom.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
+import 'package:http/http.dart' as http;
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
@@ -14,6 +15,7 @@ class StartPage extends StatefulWidget {
 }
 
 class StartPageState extends State<StartPage> {
+  late bool useLocalAsset = false;
   launchURL(url) async {
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
@@ -21,6 +23,38 @@ class StartPageState extends State<StartPage> {
       throw 'Could not launch $url';
     }
   }
+
+  Future<void> _checkResourceAvailability() async {
+    try {
+      final response = await http.head(Uri.parse(
+          "https://s3.amazonaws.com/cdn.codewithcorgis.com/ai/banner.riv"));
+      if (response.statusCode == 200) {
+        // Resource available, do nothing special
+      } else {
+        // Resource not available or error, use local asset
+        setState(() {
+          useLocalAsset = true;
+        });
+      }
+    } catch (e) {
+      // Network error or other exception, use local asset
+      setState(() {
+        useLocalAsset = true;
+      });
+    }
+  }
+
+  void initState() {
+    super.initState();
+  }
+
+  // void onInit(Artboard artboard) async {
+  //   print('Rive animation initialized');
+  //   // _controller = StateMachineController.fromArtboard(artboard, 'panel')!;
+  //   // artboard.addController(_controller);
+
+  //   // _controller.addEventListener(onRiveEvent);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +68,22 @@ class StartPageState extends State<StartPage> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(
+                        SizedBox(
                             height: 350,
                             width: 350,
-                            child: RiveAnimation.network(
-                                "https://s3.amazonaws.com/cdn.codewithcorgis.com/ai/banner.riv",
-                                fit: BoxFit.cover,
-                                stateMachines: ["game"])),
+                            child: useLocalAsset
+                                ? RiveAnimation.network(
+                                    "https://s3.amazonaws.com/cdn.codewithcorgis.com/ai/banner.riv",
+                                    fit: BoxFit.cover,
+                                    stateMachines: ["game"],
+                                    //onInit: onInit,
+                                  )
+                                : RiveAnimation.asset(
+                                    "assets/images/graphics/banner.riv",
+                                    fit: BoxFit.cover,
+                                    stateMachines: ["game"],
+                                    //onInit: onInit,
+                                  )),
                         Container(
                             child: const Text.rich(TextSpan(
                                 style: TextStyle(
@@ -590,7 +633,7 @@ class StartPageState extends State<StartPage> {
                                       ),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () => launchURL(
-                                            "https://corgis.ai/terms"),
+                                            "https://corgis.ai/privacy"),
                                     ),
                                   ]))))
                     ]))));

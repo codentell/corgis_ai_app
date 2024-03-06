@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "@react-email/components": "0.0.15",
+    "react-email": "2.1.0"
+  },
+  "name": "corgis-ai-email",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "dev": "email dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
