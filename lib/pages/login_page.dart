@@ -292,7 +292,7 @@ class LoginPageState extends State<LoginPage> {
                                                                           ),
                                                                           hintStyle: const TextStyle(fontFamily: 'Eina', fontSize: 18, color: Colors.white),
                                                                           prefixIcon: const Icon(Icons.email, color: Colors.white),
-                                                                          hintText: 'Enter a email address'),
+                                                                          hintText: 'Enter an email address'),
                                                                       controller: emailController))
                                                             ])));
                                               })),
@@ -358,6 +358,18 @@ class LoginPageState extends State<LoginPage> {
                                                                           MainAxisAlignment
                                                                               .center,
                                                                       children: [
+                                                                        !isEmailValid
+                                                                            ? Container(
+                                                                                width: 30,
+                                                                                height: 30,
+                                                                                child: RiveAnimation.asset(
+                                                                                  'assets/images/icons/lock.riv',
+                                                                                  animations: const [
+                                                                                    'idle'
+                                                                                  ],
+                                                                                  fit: BoxFit.contain,
+                                                                                ))
+                                                                            : Container(),
                                                                         Container(
                                                                           margin: const EdgeInsets
                                                                               .only(

@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:corgis_ai_app/components/TyperAnimatedTextCustom.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -20,18 +22,32 @@ class SignupPage extends StatefulWidget {
 class SignupPageState extends State<SignupPage> {
   late int panelIndex;
   late int page;
+  late bool isLocked = true;
   late String username = "";
   late bool isAuthenticating;
   ScrollController scrollController = new ScrollController();
   final PageController pageController = PageController();
-
+  late bool selectGoogleSignIn;
+  bool isEmailValid = false;
+  late final emailController = TextEditingController();
+  bool isLoading = false;
+  final formKey = GlobalKey<FormState>();
   @override
   void initState() {
     setState(() {
       page = 0;
       panelIndex = 0;
+
+      selectGoogleSignIn = false;
       isAuthenticating = false;
     });
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      setState(() {
+        isLocked = false;
+      });
+    });
+
     setupAuthListener();
     super.initState();
   }
@@ -49,6 +65,42 @@ class SignupPageState extends State<SignupPage> {
     });
   }
 
+  Future<void> login() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      await supabase.auth.signInWithOtp(
+        email: emailController.text.trim(),
+        emailRedirectTo:
+            kIsWeb ? null : 'io.supabase.codewithcorgis://login-callback/',
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Check your email for a login link!')),
+        );
+        emailController.clear();
+      }
+    } on AuthException catch (error) {
+      SnackBar(
+        content: Text(error.message),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      );
+    } catch (error) {
+      SnackBar(
+        content: const Text('Unexpected error occurred'),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
   void setupAuthListener() {
     supabase.auth.onAuthStateChange.listen((data) async {
       final event = data.event;
@@ -58,19 +110,26 @@ class SignupPageState extends State<SignupPage> {
 
         await FirebaseMessaging.instance.getAPNSToken();
         final fcmToken = await FirebaseMessaging.instance.getToken();
-        print(fcmToken);
+        //print(fcmToken);
 
         if (fcmToken != null) {
           await setFcmToken(fcmToken);
           var email = supabase.auth.currentUser?.email ?? "@[email]";
+
           setState(() {
             isAuthenticating = true;
             username = email.split("@")[0];
           });
         }
         if (isAuthenticating) {
-          pageController.animateToPage(3,
-              duration: const Duration(milliseconds: 1000),
+          setState(() {
+            page += 1;
+            panelIndex = 0;
+            isLocked = true;
+          });
+          //print("page$page");
+          pageController.animateToPage(page,
+              duration: const Duration(milliseconds: 3000),
               curve: Curves.easeInOut);
         }
         // Navigator.of(context).pushNamed('/home');
@@ -84,7 +143,7 @@ class SignupPageState extends State<SignupPage> {
     });
   }
 
-  Future<AuthResponse> googleSignIn() async {
+  Future<AuthResponse> _googleSignIn() async {
     /// TODO: update the Web client ID with your own.
     ///
     /// Web Client ID that you registered with Google Cloud.
@@ -134,14 +193,18 @@ class SignupPageState extends State<SignupPage> {
                 preferredSize: const Size.fromHeight(70),
                 child: Container(
                   height: 70,
-                  color: const Color(0xFF0A062F),
+                  color: isLocked
+                      ? const Color(0xFF1B282E)
+                      : const Color(0xFF0A062F),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                           width: 50,
                           height: 50,
-                          color: const Color(0xFF0A062F),
+                          color: isLocked
+                              ? const Color(0xFF1B282E)
+                              : const Color(0xFF0A062F),
                           child: IconButton(
                               icon: const Icon(Icons.arrow_back,
                                   color: Colors.white),
@@ -169,7 +232,9 @@ class SignupPageState extends State<SignupPage> {
                       Container(
                         width: 50,
                         height: 50,
-                        color: const Color(0xFF0A062F),
+                        color: isLocked
+                            ? const Color(0xFF1B282E)
+                            : const Color(0xFF0A062F),
                       ),
                     ],
                   ),
@@ -177,10 +242,21 @@ class SignupPageState extends State<SignupPage> {
             body: PageView(
                 controller: pageController,
                 scrollDirection: Axis.vertical,
+                onPageChanged: (index) {
+                  print("page$index");
+
+                  Future.delayed(const Duration(milliseconds: 1000), () {
+                    setState(() {
+                      isLocked = false;
+                    });
+                  });
+                },
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   Container(
-                      color: const Color(0xFF0A062F),
+                      color: isLocked
+                          ? const Color(0xFF1B282E)
+                          : const Color(0xFF0A062F),
                       child: SingleChildScrollView(
                           controller: scrollController,
                           child: Column(children: [
@@ -470,7 +546,9 @@ class SignupPageState extends State<SignupPage> {
                                 ])),
                           ]))),
                   Container(
-                      color: const Color(0xFF0A062F),
+                      color: isLocked
+                          ? const Color(0xFF1B282E)
+                          : const Color(0xFF0A062F),
                       child: SingleChildScrollView(
                           controller: scrollController,
                           child: Column(children: [
@@ -711,7 +789,9 @@ class SignupPageState extends State<SignupPage> {
                                 ])),
                           ]))),
                   Container(
-                      color: const Color(0xFF0A062F),
+                      color: isLocked
+                          ? const Color(0xFF1B282E)
+                          : const Color(0xFF0A062F),
                       child: SingleChildScrollView(
                           controller: scrollController,
                           child: Column(children: [
@@ -934,33 +1014,273 @@ class SignupPageState extends State<SignupPage> {
                                       ]),
                                   GestureDetector(
                                       onTap: () async {
-                                        // showModalBottomSheet<void>(
-                                        //   context: context,
-                                        //   builder: (BuildContext context) {
-                                        //     return SizedBox(
-                                        //         height: 200,
-                                        //         child: Center(
-                                        //           child: Column(
-                                        //             mainAxisAlignment:
-                                        //                 MainAxisAlignment
-                                        //                     .center,
-                                        //             mainAxisSize:
-                                        //                 MainAxisSize.min,
-                                        //             children: <Widget>[
-                                        //               const Text(
-                                        //                   'Modal BottomSheet'),
-                                        //               ElevatedButton(
-                                        //                 child: const Text(
-                                        //                     'Close BottomSheet'),
-                                        //                 onPressed: () =>
-                                        //                     Navigator.pop(
-                                        //                         context),
-                                        //               ),
-                                        //             ],
-                                        //           ),
-                                        //         ));
-                                        //   },
-                                        // );
+                                        showModalBottomSheet<void>(
+                                          isScrollControlled: true,
+                                          backgroundColor:
+                                              const Color(0xFF0E0657),
+                                          context: context,
+                                          builder: (
+                                            BuildContext context,
+                                          ) {
+                                            return StatefulBuilder(builder:
+                                                (BuildContext context,
+                                                    StateSetter setModalState) {
+                                              return SafeArea(
+                                                  child: SizedBox(
+                                                      child: Center(
+                                                          child: Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      top: 50,
+                                                                      left: 10,
+                                                                      right: 10,
+                                                                      bottom:
+                                                                          10),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(10),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                      color: !isEmailValid
+                                                                          ? const Color(
+                                                                              0xFF1B282E)
+                                                                          : const Color(
+                                                                              0xFF0E0657),
+                                                                      border:
+                                                                          Border
+                                                                              .all(
+                                                                        color: !isEmailValid
+                                                                            ? const Color(0xFF131F24)
+                                                                            : Colors.transparent,
+                                                                        width:
+                                                                            4,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10)
+                                                                      // color: !isEmailValid
+                                                                      //     ? Color(
+                                                                      //         0xFF1B282E)
+                                                                      //     : const Color(
+                                                                      //         0xFF0E0657),
+                                                                      ),
+                                                              child: Column(
+                                                                  children: [
+                                                                    SizedBox(
+                                                                        height:
+                                                                            70,
+                                                                        child:
+                                                                            Align(
+                                                                          alignment:
+                                                                              Alignment.centerRight,
+                                                                          child:
+                                                                              SizedBox(
+                                                                            height:
+                                                                                70,
+                                                                            width:
+                                                                                70,
+                                                                            child: IconButton(
+                                                                                onPressed: () {
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                                icon: const Icon(Icons.close, color: Colors.white),
+                                                                                iconSize: 50), // Specify the width of the green container
+                                                                          ),
+                                                                        )),
+                                                                    Container(
+                                                                        height:
+                                                                            300,
+                                                                        color: !isEmailValid
+                                                                            ? const Color(
+                                                                                0xFF1B282E)
+                                                                            : Colors
+                                                                                .transparent,
+                                                                        child: const RiveAnimation
+                                                                            .network(
+                                                                            'https://s3.amazonaws.com/cdn.codewithcorgis.com/ai/corgi_mail.riv',
+                                                                            fit: BoxFit.cover,
+                                                                            animations: [
+                                                                              'idle'
+                                                                            ])),
+                                                                    Container(
+                                                                        height:
+                                                                            10),
+                                                                    Container(
+                                                                        margin: const EdgeInsets
+                                                                            .only(
+                                                                            bottom:
+                                                                                10),
+                                                                        child: CustomAnimationBuilder<
+                                                                                double>(
+                                                                            tween:
+                                                                                Tween<double>(begin: 0.0, end: 1.0),
+                                                                            duration: const Duration(milliseconds: 500),
+                                                                            builder: (context, value, child) {
+                                                                              return Transform.scale(
+                                                                                  scale: value,
+                                                                                  child: Form(
+                                                                                      key: formKey,
+                                                                                      child: Column(children: [
+                                                                                        SizedBox(
+                                                                                            height: 70,
+                                                                                            width: 500,
+                                                                                            child: Column(children: [
+                                                                                              TextFormField(
+                                                                                                  cursorWidth: 4,
+                                                                                                  cursorColor: const Color(0xFF5F5DEF),
+                                                                                                  style: const TextStyle(
+                                                                                                    color: Colors.white,
+                                                                                                    fontSize: 20,
+                                                                                                    fontFamily: 'Eina',
+                                                                                                    fontWeight: FontWeight.bold,
+                                                                                                  ),
+                                                                                                  keyboardType: TextInputType.emailAddress,
+                                                                                                  autofillHints: const [AutofillHints.email],
+                                                                                                  onChanged: (value) {
+                                                                                                    if (value.isNotEmpty) {
+                                                                                                      if (EmailValidator.validate(value)) {
+                                                                                                        setModalState(() {
+                                                                                                          isEmailValid = true;
+                                                                                                        });
+                                                                                                        setState(() {
+                                                                                                          isEmailValid = true;
+                                                                                                        });
+                                                                                                      } else {
+                                                                                                        setModalState(() {
+                                                                                                          isEmailValid = false;
+                                                                                                        });
+                                                                                                        setState(() {
+                                                                                                          isEmailValid = false;
+                                                                                                        });
+                                                                                                      }
+                                                                                                    }
+                                                                                                  },
+                                                                                                  validator: (value) {
+                                                                                                    if (value == null || value.isEmpty || !EmailValidator.validate(emailController.text)) {
+                                                                                                      return 'Please enter a valid email address';
+                                                                                                    }
+                                                                                                    return null;
+                                                                                                  },
+                                                                                                  decoration: InputDecoration(
+                                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(16.0),
+                                                                                                        borderSide: const BorderSide(
+                                                                                                          color: Color(0xFF5F5DEF),
+                                                                                                          width: 4.0,
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      enabledBorder: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(16.0),
+                                                                                                        borderSide: const BorderSide(
+                                                                                                          color: Color(0xFF5F5DEF),
+                                                                                                          width: 4.0,
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      border: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(16),
+                                                                                                      ),
+                                                                                                      hintStyle: const TextStyle(fontFamily: 'Eina', fontSize: 18, color: Colors.white),
+                                                                                                      prefixIcon: const Icon(Icons.email, color: Colors.white),
+                                                                                                      hintText: 'Enter an email address'),
+                                                                                                  controller: emailController)
+                                                                                            ])),
+                                                                                        Container(
+                                                                                            margin: const EdgeInsets.only(top: 10, bottom: 20),
+                                                                                            child: GestureDetector(
+                                                                                                onTap: () {
+                                                                                                  if (formKey.currentState!.validate()) {
+                                                                                                    login();
+                                                                                                    Navigator.pop(context);
+                                                                                                  }
+                                                                                                  // if (emailController.text.isNotEmpty) {
+                                                                                                  //   if (EmailValidator.validate(
+                                                                                                  //       emailController.text)) {
+                                                                                                  //     setState(() {
+                                                                                                  //       isEmailValid = true;
+                                                                                                  //     });
+                                                                                                  //   } else {
+                                                                                                  //     setState(() {
+                                                                                                  //       isEmailValid = false;
+                                                                                                  //     });
+                                                                                                  //   }
+                                                                                                  // }
+                                                                                                  // if (isEmailValid) {
+                                                                                                  //   login();
+                                                                                                  // }
+                                                                                                },
+                                                                                                child: CustomAnimationBuilder<double>(
+                                                                                                    // control:
+                                                                                                    //     control, // bind variable with control instruction
+                                                                                                    tween: Tween<double>(begin: 0.0, end: 1.0),
+                                                                                                    duration: const Duration(milliseconds: 500),
+                                                                                                    builder: (context, value, child) {
+                                                                                                      return Transform.scale(
+                                                                                                          scale: value,
+                                                                                                          child: Column(children: [
+                                                                                                            Container(
+                                                                                                                height: 50,
+                                                                                                                width: 500,
+                                                                                                                decoration: BoxDecoration(
+                                                                                                                    color: !isEmailValid ? const Color(0xFF202F36) : Color(0xFFA2FF66),
+                                                                                                                    borderRadius: const BorderRadius.only(
+                                                                                                                      topRight: Radius.circular(10),
+                                                                                                                      topLeft: Radius.circular(10),
+                                                                                                                    )),
+                                                                                                                child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                                                                                                  Container(
+                                                                                                                    margin: const EdgeInsets.only(left: 5),
+                                                                                                                    child: isLoading
+                                                                                                                        ? const CircularProgressIndicator(
+                                                                                                                            strokeWidth: 4,
+                                                                                                                            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1a1e4c)),
+                                                                                                                          )
+                                                                                                                        : Row(children: [
+                                                                                                                            !isEmailValid
+                                                                                                                                ? Container(
+                                                                                                                                    margin: const EdgeInsets.only(right: 10),
+                                                                                                                                    height: 30,
+                                                                                                                                    width: 30,
+                                                                                                                                    child: const RiveAnimation.asset(
+                                                                                                                                      'assets/images/icons/lock.riv',
+                                                                                                                                      animations: ['idle'],
+                                                                                                                                      fit: BoxFit.contain,
+                                                                                                                                    ))
+                                                                                                                                : Container(),
+                                                                                                                            Text(
+                                                                                                                              "subscribe",
+                                                                                                                              style: TextStyle(
+                                                                                                                                color: !isEmailValid ? const Color(0xFF49C1F9) : Color(0xFF1a1e4c),
+                                                                                                                                fontSize: 21,
+                                                                                                                                fontFamily: 'Eina',
+                                                                                                                                fontWeight: FontWeight.bold,
+                                                                                                                              ),
+                                                                                                                            )
+                                                                                                                          ]),
+                                                                                                                  )
+                                                                                                                ])),
+                                                                                                            Container(
+                                                                                                              height: 15,
+                                                                                                              width: 500,
+                                                                                                              decoration: BoxDecoration(
+                                                                                                                  border: Border.all(
+                                                                                                                    color: !isEmailValid ? const Color(0xFF384650) : const Color(0xFF69EC15),
+                                                                                                                    width: 3,
+                                                                                                                  ),
+                                                                                                                  borderRadius: const BorderRadius.only(
+                                                                                                                    bottomRight: Radius.circular(10),
+                                                                                                                    bottomLeft: Radius.circular(10),
+                                                                                                                  ),
+                                                                                                                  color: !isEmailValid ? const Color(0xFF384650) : const Color(0xFF69EC15)),
+                                                                                                            ),
+                                                                                                          ]));
+                                                                                                    }))),
+                                                                                      ])));
+                                                                            })),
+                                                                  ])))));
+                                            });
+                                          },
+                                        );
                                       },
                                       child: Container(
                                           margin:
@@ -988,12 +1308,12 @@ class SignupPageState extends State<SignupPage> {
                                                           BorderRadius.circular(
                                                               10),
                                                     ),
-                                                    child: Column(
+                                                    child: const Column(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Container(
+                                                          SizedBox(
                                                               height: 50,
                                                               width: 50,
                                                               child: Icon(
@@ -1016,8 +1336,25 @@ class SignupPageState extends State<SignupPage> {
                                             Container(width: 10),
                                             Expanded(
                                                 child: GestureDetector(
-                                                    onTap: () {
-                                                      googleSignIn();
+                                                    onTap: () async {
+                                                      setState(() {
+                                                        selectGoogleSignIn =
+                                                            true;
+                                                      });
+                                                      print(selectGoogleSignIn);
+                                                      try {
+                                                        await _googleSignIn();
+                                                        setState(() {
+                                                          selectGoogleSignIn =
+                                                              false;
+                                                        });
+                                                      } catch (e) {
+                                                        setState(() {
+                                                          selectGoogleSignIn =
+                                                              false;
+                                                        });
+                                                        print(e);
+                                                      }
                                                     },
                                                     child: Container(
                                                         height: 120,
@@ -1026,11 +1363,20 @@ class SignupPageState extends State<SignupPage> {
                                                                 .all(10),
                                                         decoration:
                                                             BoxDecoration(
-                                                          color:
-                                                              Color(0xFF0A062F),
+                                                          color: selectGoogleSignIn
+                                                              ? const Color(
+                                                                      0xFFBDFF9C)
+                                                                  .withOpacity(
+                                                                      0.85)
+                                                              : const Color(
+                                                                  0xFF0A062F),
                                                           border: Border.all(
-                                                            color: Color(
-                                                                0xFF23197D),
+                                                            color: selectGoogleSignIn ==
+                                                                    true
+                                                                ? const Color(
+                                                                    0xFF42FF00)
+                                                                : const Color(
+                                                                    0xFF23197D),
                                                             // Color(
                                                             // 0xFF5F5DEF), //const Color(0xFF5046E4),
                                                             width: 4,
@@ -1048,17 +1394,23 @@ class SignupPageState extends State<SignupPage> {
                                                               Container(
                                                                   height: 50,
                                                                   width: 50,
-                                                                  child:
-                                                                      RiveAnimation
-                                                                          .asset(
-                                                                    'assets/images/icons/google.riv',
-                                                                    animations: const [
-                                                                      'idle'
-                                                                    ],
-                                                                    fit: BoxFit
-                                                                        .contain,
-                                                                  )),
-                                                              Text("google",
+                                                                  child: selectGoogleSignIn
+                                                                      ? const CircularProgressIndicator(
+                                                                          strokeWidth:
+                                                                              4,
+                                                                          valueColor:
+                                                                              AlwaysStoppedAnimation<Color>(Color(0xFF1a1e4c)),
+                                                                        )
+                                                                      : const RiveAnimation.asset(
+                                                                          'assets/images/icons/google.riv',
+                                                                          animations: [
+                                                                            'idle'
+                                                                          ],
+                                                                          fit: BoxFit
+                                                                              .contain,
+                                                                        )),
+                                                              const Text(
+                                                                  "google",
                                                                   style:
                                                                       TextStyle(
                                                                     color: Colors
@@ -1080,10 +1432,11 @@ class SignupPageState extends State<SignupPage> {
                                                         const EdgeInsets.all(
                                                             10),
                                                     decoration: BoxDecoration(
-                                                      color: Color(0xFF0A062F),
+                                                      color: const Color(
+                                                          0xFF0A062F),
                                                       border: Border.all(
-                                                        color:
-                                                            Color(0xFF23197D),
+                                                        color: const Color(
+                                                            0xFF23197D),
                                                         // Color(
                                                         // 0xFF5F5DEF), //const Color(0xFF5046E4),
                                                         width: 4,
@@ -1093,19 +1446,19 @@ class SignupPageState extends State<SignupPage> {
                                                           BorderRadius.circular(
                                                               10),
                                                     ),
-                                                    child: Column(
+                                                    child: const Column(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: [
-                                                          Container(
+                                                          SizedBox(
                                                               height: 50,
                                                               width: 50,
                                                               child:
                                                                   RiveAnimation
                                                                       .asset(
                                                                 'assets/images/icons/apple_light.riv',
-                                                                animations: const [
+                                                                animations: [
                                                                   'idle'
                                                                 ],
                                                                 fit: BoxFit
@@ -1127,7 +1480,9 @@ class SignupPageState extends State<SignupPage> {
                                 ])),
                           ]))),
                   Container(
-                      color: const Color(0xFF0A062F),
+                      color: isLocked
+                          ? const Color(0xFF1B282E)
+                          : const Color(0xFF0A062F),
                       child: SingleChildScrollView(
                           controller: scrollController,
                           child: Column(children: [
@@ -1268,7 +1623,8 @@ class SignupPageState extends State<SignupPage> {
                                                           TextSpan(
                                                             text:
                                                                 'You\'re all set! Begin as @${username}, but you\'ll soon get to choose your own coding hero identity.',
-                                                            style: TextStyle(
+                                                            style:
+                                                                const TextStyle(
                                                               color:
                                                                   Colors.white,
                                                               fontSize: 24,
@@ -1291,130 +1647,197 @@ class SignupPageState extends State<SignupPage> {
                                       ]),
                                 ])),
                           ]))),
+                  Container(color: Colors.red, child: SingleChildScrollView())
                 ]),
-            bottomNavigationBar: Container(
-                padding: const EdgeInsets.only(
-                    top: 20, right: 20, left: 20, bottom: 20),
-                height: 125,
-                color: const Color(0xFF0A062F),
-                child: Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                      Expanded(
-                          child: GestureDetector(
-                              onTap: () {
-                                pageController.animateToPage(page + 1,
-                                    duration: const Duration(milliseconds: 500),
-                                    curve: Curves.easeInOut);
-                                setState(() {
-                                  page += 1;
-                                  panelIndex = 0;
-                                });
-                                print(page);
-                              },
-                              child: CustomAnimationBuilder<double>(
-                                  tween: Tween<double>(begin: 0.0, end: 1.0),
-                                  duration: const Duration(milliseconds: 500),
-                                  builder: (context, value, child) {
-                                    return Transform.scale(
-                                        scale: value,
-                                        child: Column(children: [
-                                          Container(
-                                              height: 50,
-                                              width: MediaQuery.of(context)
-                                                          .size
-                                                          .width <
-                                                      500
-                                                  ? 400
-                                                  : 500.0,
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xFFA2FF66),
+            bottomNavigationBar: page == 2
+                ? Container(
+                    color: isLocked
+                        ? const Color(0xFF1B282E)
+                        : const Color(0xFF0A062F),
+                    padding: const EdgeInsets.only(
+                        top: 20, right: 20, left: 20, bottom: 20),
+                    height: 100)
+                : Container(
+                    padding: const EdgeInsets.only(
+                        top: 20, right: 20, left: 20, bottom: 20),
+                    height: 125,
+                    color: isLocked
+                        ? const Color(0xFF1B282E)
+                        : const Color(0xFF0A062F),
+                    child: Center(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                          Expanded(
+                              child: GestureDetector(
+                                  onTap: () {
+                                    if (!isLocked) {
+                                      setState(() {
+                                        page += 1;
+                                        panelIndex = 0;
+                                        isLocked = true;
+                                      });
+                                      pageController.animateToPage(page,
+                                          duration:
+                                              const Duration(milliseconds: 500),
+                                          curve: Curves.easeInOut);
+
+                                      //print(page);
+                                    }
+                                  },
+                                  child: CustomAnimationBuilder<double>(
+                                      tween:
+                                          Tween<double>(begin: 0.0, end: 1.0),
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      builder: (context, value, child) {
+                                        return Transform.scale(
+                                            scale: value,
+                                            child: Column(children: [
+                                              Container(
+                                                  height: 50,
+                                                  width: MediaQuery.of(context)
+                                                              .size
+                                                              .width <
+                                                          500
+                                                      ? 400
+                                                      : 500.0,
+                                                  decoration: BoxDecoration(
+                                                      color: isLocked
+                                                          ? const Color(
+                                                              0xFF202F36)
+                                                          : const Color(
+                                                              0xFFA2FF66),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        topRight:
+                                                            Radius.circular(10),
+                                                        topLeft:
+                                                            Radius.circular(10),
+                                                      )),
+                                                  child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Transform(
+                                                          transform:
+                                                              Matrix4.skewX(
+                                                                  -0.5),
+                                                          origin: const Offset(
+                                                              0.0, 0.0),
+                                                          child: Container(
+                                                            height: 100.0,
+                                                            width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width <
+                                                                    500
+                                                                ? 70
+                                                                : 150.0,
+                                                            color: isLocked
+                                                                ? const Color(
+                                                                    0xFF202F36)
+                                                                : const Color(
+                                                                    0xFFB9FF8C),
+                                                          ),
+                                                        ),
+                                                        Center(
+                                                            child:
+                                                                Row(children: [
+                                                          isLocked
+                                                              ? Container(
+                                                                  margin:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          right:
+                                                                              10),
+                                                                  height: 30,
+                                                                  width: 30,
+                                                                  child:
+                                                                      const RiveAnimation
+                                                                          .asset(
+                                                                    'assets/images/icons/lock.riv',
+                                                                    animations: [
+                                                                      'idle'
+                                                                    ],
+                                                                    fit: BoxFit
+                                                                        .contain,
+                                                                  ))
+                                                              : Container(),
+                                                          Text(
+                                                            "continue",
+                                                            style: TextStyle(
+                                                              color: isLocked
+                                                                  ? const Color(
+                                                                      0xFF49C1F9)
+                                                                  : const Color(
+                                                                      0xFF1a1e4c),
+                                                              fontSize: 21,
+                                                              fontFamily:
+                                                                  'Eina',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          )
+                                                        ])),
+                                                        Transform(
+                                                          transform:
+                                                              Matrix4.skewX(
+                                                                  -0.5),
+                                                          origin: const Offset(
+                                                              0.0, 50.0),
+                                                          child: Container(
+                                                            height: 100.0,
+                                                            width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width <
+                                                                    500
+                                                                ? 70
+                                                                : 150.0,
+                                                            color: isLocked
+                                                                ? const Color(
+                                                                    0xFF202F36)
+                                                                : const Color(
+                                                                    0xFFB9FF8C),
+                                                          ),
+                                                        ),
+                                                      ])),
+                                              Container(
+                                                height: 15,
+                                                width: MediaQuery.of(context)
+                                                            .size
+                                                            .width <
+                                                        500
+                                                    ? 400
+                                                    : 500,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: isLocked
+                                                        ? const Color(
+                                                            0xFF384650)
+                                                        : const Color(
+                                                            0xFF69EC15),
+                                                    width: 3,
+                                                  ),
                                                   borderRadius:
                                                       const BorderRadius.only(
-                                                    topRight:
+                                                    bottomRight:
                                                         Radius.circular(10),
-                                                    topLeft:
+                                                    bottomLeft:
                                                         Radius.circular(10),
-                                                  )),
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Transform(
-                                                      transform:
-                                                          Matrix4.skewX(-0.5),
-                                                      origin: const Offset(
-                                                          0.0, 0.0),
-                                                      child: Container(
-                                                        height: 100.0,
-                                                        width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width <
-                                                                500
-                                                            ? 70
-                                                            : 150.0,
-                                                        color: const Color(
-                                                            0xFFB9FF8C),
-                                                      ),
-                                                    ),
-                                                    Center(
-                                                        child: Text(
-                                                      "continue",
-                                                      style: TextStyle(
-                                                        color: const Color(
-                                                            0xFF1a1e4c),
-                                                        fontSize: 21,
-                                                        fontFamily: 'Eina',
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    )),
-                                                    Transform(
-                                                      transform:
-                                                          Matrix4.skewX(-0.5),
-                                                      origin: const Offset(
-                                                          0.0, 50.0),
-                                                      child: Container(
-                                                        height: 100.0,
-                                                        width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width <
-                                                                500
-                                                            ? 70
-                                                            : 150.0,
-                                                        color: const Color(
-                                                            0xFFB9FF8C),
-                                                      ),
-                                                    ),
-                                                  ])),
-                                          Container(
-                                            height: 15,
-                                            width: MediaQuery.of(context)
-                                                        .size
-                                                        .width <
-                                                    500
-                                                ? 400
-                                                : 500,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: const Color(0xFF69EC15),
-                                                width: 3,
+                                                  ),
+                                                  color: isLocked
+                                                      ? const Color(0xFF384650)
+                                                      : const Color(0xFF69EC15),
+                                                ),
                                               ),
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                bottomRight:
-                                                    Radius.circular(10),
-                                                bottomLeft: Radius.circular(10),
-                                              ),
-                                              color: const Color(0xFF69EC15),
-                                            ),
-                                          ),
-                                        ]));
-                                  }))),
-                    ])))));
+                                            ]));
+                                      }))),
+                        ])))));
   }
 }
 

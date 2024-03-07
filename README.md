@@ -60,3 +60,73 @@ No spam shall pass, only magical updates straight to your inbox."
 "Ready to explore and learn coding in a fun, interactive way? Let's dive in!"
 
 open -a Simulator.app 
+
+
+Beta Testing…
+
+
+User and time capacity 
+
+Choose short lesson 
+
+What’s wrong with it 
+Debugging code puzzle 
+
+Find the problem 
+
+Time limit corgis timer for game 
+5 minutes to do it 
+
+2 minutes 
+Hint halfway point 
+
+A good reason why experts based on interviews 
+
+Duolingo Streaks 
+Five days of doing it 
+Three hearts 
+And I die 
+
+45 minutes adventure 
+Interview process 
+
+A more extended session is a challenge to do 
+
+SQL 
+Python
+
+Area learning software 
+Documentation puzzle games 
+
+Terminology 
+
+React 
+Flask 
+AWS 
+
+Anki cards 
+Slides were helpful 
+Story into diagrams 
+
+Visualizing 
+System Design  Game 
+Poetic poems 
+Animations of how it works 
+Storytelling 
+
+Inbound marketing and set of challenges 
+And prep for interviews and post the challenges 
+Ask them to do it 
+The first challenge is free 
+
+The first is free, and the rest is blocked. 
+15 minutes on the phone. 
+ 
+
+
+
+
+
+ 
+
+

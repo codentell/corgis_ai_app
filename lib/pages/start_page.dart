@@ -72,13 +72,13 @@ class StartPageState extends State<StartPage> {
                             height: 350,
                             width: 350,
                             child: useLocalAsset
-                                ? RiveAnimation.network(
+                                ? const RiveAnimation.network(
                                     "https://s3.amazonaws.com/cdn.codewithcorgis.com/ai/banner.riv",
                                     fit: BoxFit.cover,
                                     stateMachines: ["game"],
                                     //onInit: onInit,
                                   )
-                                : RiveAnimation.asset(
+                                : const RiveAnimation.asset(
                                     "assets/images/graphics/banner.riv",
                                     fit: BoxFit.cover,
                                     stateMachines: ["game"],
