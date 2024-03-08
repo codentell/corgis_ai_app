@@ -48,6 +48,8 @@ dependencies:
   firebase_messaging: ^14.7.10
   uuid: ^4.3.3
   email_validator: ^2.1.17
+  sign_in_with_apple: ^6.0.0
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:

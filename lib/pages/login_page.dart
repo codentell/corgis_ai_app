@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:corgis_ai_app/components/TyperAnimatedTextCustom.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:crypto/crypto.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:corgis_ai_app/main.dart';
 import 'package:rive/rive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,6 +71,31 @@ class LoginPageState extends State<LoginPage> {
         Navigator.of(context).pushReplacementNamed('/home');
       }
     });
+  }
+
+  Future<AuthResponse> _appleSignIn() async {
+    final rawNonce = supabase.auth.generateRawNonce();
+    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
+
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: hashedNonce,
+    );
+
+    final idToken = credential.identityToken;
+    if (idToken == null) {
+      throw const AuthException(
+          'Could not find ID Token from generated credential.');
+    }
+
+    return supabase.auth.signInWithIdToken(
+      provider: OAuthProvider.apple,
+      idToken: idToken,
+      nonce: rawNonce,
+    );
   }
 
   Future<AuthResponse> _googleSignIn() async {
@@ -516,12 +544,12 @@ class LoginPageState extends State<LoginPage> {
                                                                     BoxDecoration(
                                                                   border: Border
                                                                       .all(
-                                                                    color: Color
+                                                                    color: const Color
                                                                         .fromARGB(
-                                                                            255,
-                                                                            235,
-                                                                            235,
-                                                                            235),
+                                                                        255,
+                                                                        235,
+                                                                        235,
+                                                                        235),
                                                                     width: 3,
                                                                   ),
                                                                   borderRadius:
@@ -534,12 +562,12 @@ class LoginPageState extends State<LoginPage> {
                                                                         Radius.circular(
                                                                             10),
                                                                   ),
-                                                                  color: Color
+                                                                  color: const Color
                                                                       .fromARGB(
-                                                                          255,
-                                                                          235,
-                                                                          235,
-                                                                          235),
+                                                                      255,
+                                                                      235,
+                                                                      235,
+                                                                      235),
                                                                 ),
                                                               ),
                                                             ]));

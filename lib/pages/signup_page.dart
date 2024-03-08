@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:corgis_ai_app/components/TyperAnimatedTextCustom.dart';
@@ -8,6 +11,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:corgis_ai_app/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rive/rive.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:simple_animations/animation_builder/custom_animation_builder.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
@@ -28,6 +32,8 @@ class SignupPageState extends State<SignupPage> {
   ScrollController scrollController = new ScrollController();
   final PageController pageController = PageController();
   late bool selectGoogleSignIn;
+  late bool selectAppleSignIn;
+  late bool selectEmailSignIn;
   bool isEmailValid = false;
   late final emailController = TextEditingController();
   bool isLoading = false;
@@ -37,7 +43,8 @@ class SignupPageState extends State<SignupPage> {
     setState(() {
       page = 0;
       panelIndex = 0;
-
+      selectAppleSignIn = false;
+      selectEmailSignIn = false;
       selectGoogleSignIn = false;
       isAuthenticating = false;
     });
@@ -96,6 +103,7 @@ class SignupPageState extends State<SignupPage> {
       if (mounted) {
         setState(() {
           isLoading = false;
+          selectEmailSignIn = false;
         });
       }
     }
@@ -141,6 +149,34 @@ class SignupPageState extends State<SignupPage> {
       //   Navigator.of(context).pushReplacementNamed('/home');
       // }
     });
+  }
+
+  Future<AuthResponse> _appleSignIn() async {
+    final rawNonce = supabase.auth.generateRawNonce();
+    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
+
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: hashedNonce,
+    );
+
+    print(credential);
+
+    final idToken = credential.identityToken;
+    print(idToken);
+    if (idToken == null) {
+      throw const AuthException(
+          'Could not find ID Token from generated credential.');
+    }
+
+    return supabase.auth.signInWithIdToken(
+      provider: OAuthProvider.apple,
+      idToken: idToken,
+      nonce: rawNonce,
+    );
   }
 
   Future<AuthResponse> _googleSignIn() async {
@@ -1014,6 +1050,10 @@ class SignupPageState extends State<SignupPage> {
                                       ]),
                                   GestureDetector(
                                       onTap: () async {
+                                        setState(() {
+                                          selectEmailSignIn = true;
+                                        });
+
                                         showModalBottomSheet<void>(
                                           isScrollControlled: true,
                                           backgroundColor:
@@ -1058,13 +1098,7 @@ class SignupPageState extends State<SignupPage> {
                                                                       ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              10)
-                                                                      // color: !isEmailValid
-                                                                      //     ? Color(
-                                                                      //         0xFF1B282E)
-                                                                      //     : const Color(
-                                                                      //         0xFF0E0657),
-                                                                      ),
+                                                                              10)),
                                                               child: Column(
                                                                   children: [
                                                                     SizedBox(
@@ -1082,6 +1116,12 @@ class SignupPageState extends State<SignupPage> {
                                                                                 70,
                                                                             child: IconButton(
                                                                                 onPressed: () {
+                                                                                  setModalState(() {
+                                                                                    selectEmailSignIn = false;
+                                                                                  });
+                                                                                  setState(() {
+                                                                                    selectEmailSignIn = false;
+                                                                                  });
                                                                                   Navigator.pop(context);
                                                                                 },
                                                                                 icon: const Icon(Icons.close, color: Colors.white),
@@ -1191,6 +1231,7 @@ class SignupPageState extends State<SignupPage> {
                                                                                                 onTap: () {
                                                                                                   if (formKey.currentState!.validate()) {
                                                                                                     login();
+
                                                                                                     Navigator.pop(context);
                                                                                                   }
                                                                                                   // if (emailController.text.isNotEmpty) {
@@ -1280,12 +1321,15 @@ class SignupPageState extends State<SignupPage> {
                                                                   ])))));
                                             });
                                           },
-                                        );
+                                        ).then((value) {
+                                          setState(() {
+                                            selectEmailSignIn = false;
+                                          });
+                                        });
                                       },
                                       child: Container(
                                           margin:
                                               const EdgeInsets.only(top: 20),
-                                          //color: Colors.red,
                                           height: 120,
                                           child: Row(children: [
                                             Expanded(
@@ -1295,10 +1339,20 @@ class SignupPageState extends State<SignupPage> {
                                                         const EdgeInsets.all(
                                                             10),
                                                     decoration: BoxDecoration(
-                                                      color: Color(0xFF0A062F),
+                                                      color: selectEmailSignIn
+                                                          ? const Color(
+                                                                  0xFFBDFF9C)
+                                                              .withOpacity(0.85)
+                                                          : const Color(
+                                                              0xFF0A062F),
                                                       border: Border.all(
                                                         color:
-                                                            Color(0xFF23197D),
+                                                            selectEmailSignIn ==
+                                                                    true
+                                                                ? const Color(
+                                                                    0xFF42FF00)
+                                                                : Color(
+                                                                    0xFF23197D),
                                                         // Color(
                                                         // 0xFF5F5DEF), //const Color(0xFF5046E4),
                                                         width: 4,
@@ -1308,7 +1362,7 @@ class SignupPageState extends State<SignupPage> {
                                                           BorderRadius.circular(
                                                               10),
                                                     ),
-                                                    child: const Column(
+                                                    child: Column(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .center,
@@ -1316,11 +1370,21 @@ class SignupPageState extends State<SignupPage> {
                                                           SizedBox(
                                                               height: 50,
                                                               width: 50,
-                                                              child: Icon(
-                                                                  size: 45.0,
-                                                                  Icons.email,
-                                                                  color: Colors
-                                                                      .white)),
+                                                              child:
+                                                                  selectEmailSignIn
+                                                                      ? const CircularProgressIndicator(
+                                                                          strokeWidth:
+                                                                              4,
+                                                                          valueColor:
+                                                                              AlwaysStoppedAnimation<Color>(Color(0xFF1a1e4c)),
+                                                                        )
+                                                                      : Icon(
+                                                                          size:
+                                                                              45.0,
+                                                                          Icons
+                                                                              .email,
+                                                                          color:
+                                                                              Colors.white)),
                                                           Text("email",
                                                               style: TextStyle(
                                                                 color: Colors
@@ -1426,56 +1490,80 @@ class SignupPageState extends State<SignupPage> {
                                                             ])))),
                                             Container(width: 10),
                                             Expanded(
-                                                child: Container(
-                                                    height: 120,
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            10),
-                                                    decoration: BoxDecoration(
-                                                      color: const Color(
-                                                          0xFF0A062F),
-                                                      border: Border.all(
-                                                        color: const Color(
-                                                            0xFF23197D),
-                                                        // Color(
-                                                        // 0xFF5F5DEF), //const Color(0xFF5046E4),
-                                                        width: 4,
-                                                      ),
-                                                      //color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                    ),
-                                                    child: const Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          SizedBox(
-                                                              height: 50,
-                                                              width: 50,
-                                                              child:
-                                                                  RiveAnimation
-                                                                      .asset(
-                                                                'assets/images/icons/apple_light.riv',
-                                                                animations: [
-                                                                  'idle'
-                                                                ],
-                                                                fit: BoxFit
-                                                                    .contain,
-                                                              )),
-                                                          Text("apple",
-                                                              style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 21,
-                                                                fontFamily:
-                                                                    'Eina',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                              )),
-                                                        ]))),
+                                                child: GestureDetector(
+                                                    onTap: () async {
+                                                      setState(() {
+                                                        selectAppleSignIn =
+                                                            true;
+                                                      });
+                                                      print(selectGoogleSignIn);
+                                                      try {
+                                                        await _appleSignIn();
+                                                        setState(() {
+                                                          selectAppleSignIn =
+                                                              false;
+                                                        });
+                                                      } catch (e) {
+                                                        setState(() {
+                                                          selectGoogleSignIn =
+                                                              false;
+                                                        });
+                                                        print(e);
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                        height: 120,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(10),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: const Color(
+                                                              0xFF0A062F),
+                                                          border: Border.all(
+                                                            color: const Color(
+                                                                0xFF23197D),
+                                                            // Color(
+                                                            // 0xFF5F5DEF), //const Color(0xFF5046E4),
+                                                            width: 4,
+                                                          ),
+                                                          //color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        child: const Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              SizedBox(
+                                                                  height: 50,
+                                                                  width: 50,
+                                                                  child:
+                                                                      RiveAnimation
+                                                                          .asset(
+                                                                    'assets/images/icons/apple_light.riv',
+                                                                    animations: [
+                                                                      'idle'
+                                                                    ],
+                                                                    fit: BoxFit
+                                                                        .contain,
+                                                                  )),
+                                                              Text("apple",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        21,
+                                                                    fontFamily:
+                                                                        'Eina',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  )),
+                                                            ])))),
                                           ])))
                                 ])),
                           ]))),
