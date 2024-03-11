@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 const goalList = [
   {
     "text": "Just for fun",
+    "goal": "fun",
     "textSpan": [
       TextSpan(
           text: "Just ",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           )),
@@ -16,7 +17,7 @@ const goalList = [
           text: "for ",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           )),
@@ -24,7 +25,7 @@ const goalList = [
           text: "fun",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           ))
@@ -32,12 +33,13 @@ const goalList = [
   },
   {
     "text": "Prepare for interviews",
+    "goal": "interview",
     "textSpan": [
       TextSpan(
           text: "Prepare ",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           )),
@@ -45,7 +47,7 @@ const goalList = [
           text: "for ",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           )),
@@ -53,57 +55,43 @@ const goalList = [
           text: "interviews",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           ))
     ]
   },
   {
-    "text": "Level up skills and knowledge",
+    "text": "Level up skills",
+    "goal": "star",
     "textSpan": [
       TextSpan(
           text: "Level up ",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           )),
       TextSpan(
-          text: "skills ",
+          text: "skills",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           )),
-      TextSpan(
-          text: "and ",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          )),
-      TextSpan(
-          text: "knowledge",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          ))
     ]
   },
   {
-    "text": "Develop a tech literacy",
+    "text": "Grow a tech literacy",
+    "goal": "grow",
     "textSpan": [
       TextSpan(
-          text: "Develop ",
+          text: "Grow a ",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           )),
@@ -111,7 +99,7 @@ const goalList = [
           text: "tech ",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           )),
@@ -119,36 +107,7 @@ const goalList = [
           text: "literacy",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          ))
-    ]
-  },
-  {
-    "text": "Keep up with new tech",
-    "textSpan": [
-      TextSpan(
-          text: "Keep up with ",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          )),
-      TextSpan(
-          text: "new ",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          )),
-      TextSpan(
-          text: "tech",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           ))
@@ -156,12 +115,13 @@ const goalList = [
   },
   {
     "text": "Other",
+    "goal": "other",
     "textSpan": [
       TextSpan(
           text: "Other",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 18,
             fontFamily: 'Eina',
             fontWeight: FontWeight.bold,
           ))

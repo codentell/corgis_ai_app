@@ -86,8 +86,8 @@ class SignupPageState extends State<SignupPage> {
                                     duration: const Duration(milliseconds: 500),
                                     builder: (context, value, child) {
                                       return Container(
-                                          margin:
-                                              const EdgeInsets.only(left: 10),
+                                          margin: const EdgeInsets.only(
+                                              left: 10, bottom: 10),
                                           alignment: Alignment.centerLeft,
                                           child: Transform.scale(
                                               scale: value,

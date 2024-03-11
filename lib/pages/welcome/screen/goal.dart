@@ -238,17 +238,18 @@ class GoalPageState extends State<GoalPage> {
                                                   )),
                                               child: Row(children: [
                                                 Container(
-                                                  margin: const EdgeInsets.only(
-                                                      right: 10, left: 10),
-                                                  height: 40,
-                                                  width: 40,
-                                                  // child: RiveAnimation.network(
-                                                  //     "https://s3.amazonaws.com/cdn.codewithcorgis.com/ai/${widget.goals[i]["text"]!}.riv",
-                                                  //     fit: BoxFit.cover,
-                                                  //     animations: const [
-                                                  //       "idle"
-                                                  //     ])
-                                                ),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 10,
+                                                            left: 10),
+                                                    height: 40,
+                                                    width: 40,
+                                                    child: RiveAnimation.asset(
+                                                        "assets/images/icons/${widget.goals[i]["goal"]!}.riv",
+                                                        fit: BoxFit.cover,
+                                                        animations: const [
+                                                          "idle"
+                                                        ])),
                                                 widget.goal ==
                                                         widget.goals[i]["text"]!
                                                     ? Text(
@@ -257,7 +258,7 @@ class GoalPageState extends State<GoalPage> {
                                                         style: const TextStyle(
                                                           color:
                                                               Color(0xFF0A062F),
-                                                          fontSize: 16,
+                                                          fontSize: 18,
                                                           fontFamily: 'Eina',
                                                           fontWeight:
                                                               FontWeight.bold,

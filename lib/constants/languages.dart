@@ -23,44 +23,44 @@ const languageList = [
           ))
     ]
   },
-  {
-    "name": "javascript",
-    "language": "js",
-    "text": [
-      TextSpan(
-          text: "j",
-          style: TextStyle(
-            color: Color(0xFFFAEC36),
-            fontSize: 30,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          )),
-      TextSpan(
-          text: "ava",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          )),
-      TextSpan(
-          text: "s",
-          style: TextStyle(
-            color: Color(0xFFFAEC36),
-            fontSize: 30,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          )),
-      const TextSpan(
-          text: "cript",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          ))
-    ]
-  },
+  // {
+  //   "name": "javascript",
+  //   "language": "js",
+  //   "text": [
+  //     TextSpan(
+  //         text: "j",
+  //         style: TextStyle(
+  //           color: Color(0xFFFAEC36),
+  //           fontSize: 30,
+  //           fontFamily: 'Eina',
+  //           fontWeight: FontWeight.bold,
+  //         )),
+  //     TextSpan(
+  //         text: "ava",
+  //         style: TextStyle(
+  //           color: Colors.white,
+  //           fontSize: 30,
+  //           fontFamily: 'Eina',
+  //           fontWeight: FontWeight.bold,
+  //         )),
+  //     TextSpan(
+  //         text: "s",
+  //         style: TextStyle(
+  //           color: Color(0xFFFAEC36),
+  //           fontSize: 30,
+  //           fontFamily: 'Eina',
+  //           fontWeight: FontWeight.bold,
+  //         )),
+  //     const TextSpan(
+  //         text: "cript",
+  //         style: TextStyle(
+  //           color: Colors.white,
+  //           fontSize: 30,
+  //           fontFamily: 'Eina',
+  //           fontWeight: FontWeight.bold,
+  //         ))
+  //   ]
+  // },
   {
     "name": "mojo",
     "language": "mojo",
@@ -75,44 +75,44 @@ const languageList = [
           ))
     ]
   },
-  {
-    "name": "rust",
-    "language": "rs",
-    "text": [
-      TextSpan(
-          text: "r",
-          style: TextStyle(
-            color: Color(0xFFFFBF75),
-            fontSize: 30,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          )),
-      TextSpan(
-          text: "u",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          )),
-      TextSpan(
-          text: "s",
-          style: TextStyle(
-            color: Color(0xFFFFBF75),
-            fontSize: 30,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          )),
-      TextSpan(
-          text: "t",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontFamily: 'Eina',
-            fontWeight: FontWeight.bold,
-          ))
-    ]
-  },
+  // {
+  //   "name": "rust",
+  //   "language": "rs",
+  //   "text": [
+  //     TextSpan(
+  //         text: "r",
+  //         style: TextStyle(
+  //           color: Color(0xFFFFBF75),
+  //           fontSize: 30,
+  //           fontFamily: 'Eina',
+  //           fontWeight: FontWeight.bold,
+  //         )),
+  //     TextSpan(
+  //         text: "u",
+  //         style: TextStyle(
+  //           color: Colors.white,
+  //           fontSize: 30,
+  //           fontFamily: 'Eina',
+  //           fontWeight: FontWeight.bold,
+  //         )),
+  //     TextSpan(
+  //         text: "s",
+  //         style: TextStyle(
+  //           color: Color(0xFFFFBF75),
+  //           fontSize: 30,
+  //           fontFamily: 'Eina',
+  //           fontWeight: FontWeight.bold,
+  //         )),
+  //     TextSpan(
+  //         text: "t",
+  //         style: TextStyle(
+  //           color: Colors.white,
+  //           fontSize: 30,
+  //           fontFamily: 'Eina',
+  //           fontWeight: FontWeight.bold,
+  //         ))
+  //   ]
+  // },
   {
     "name": "postgresql",
     "language": "psql",

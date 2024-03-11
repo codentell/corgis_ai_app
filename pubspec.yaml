@@ -75,11 +75,19 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/graphics/5-level-py.riv
     - assets/images/graphics/banner.riv
     - assets/images/icons/google.riv
     - assets/images/icons/apple.riv
+    - assets/images/icons/interview.riv
     - assets/images/icons/apple_light.riv
     - assets/images/icons/lock.riv
+    - assets/images/icons/fun.riv
+    - assets/images/graphics/mouse.riv
+    - assets/images/icons/star.riv
+    - assets/images/icons/grow.riv
+    - assets/images/icons/other.riv
+   
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

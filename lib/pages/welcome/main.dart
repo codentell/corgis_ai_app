@@ -19,13 +19,15 @@ class WelcomePageState extends State<WelcomePage> {
     final String id = widget.id;
 
     if (id == "0") {
-      //return const OnboardPage();
-      return const SignupPage();
+      return const OnboardPage();
+      //return const SignupPage();
       //return const IntroPage();
     } else if (id == "1") {
       return const HelloPage();
     } else if (id == "2") {
-      return const ReminderPage(); //OnboardPage();
+      return const OnboardPage(); //OnboardPage();
+    } else if (id == "3") {
+      return const ReminderPage();
     } else {
       return Container(color: Colors.green);
     }

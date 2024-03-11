@@ -154,7 +154,17 @@ class LoginPageState extends State<LoginPage> {
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Check your email for a login link!')),
+          const SnackBar(
+              backgroundColor: Color(0xFFC371FE),
+              content: Text(
+                'Check your email ✉️ for a login link!',
+                style: TextStyle(
+                  color: Color(0xFF0A062F),
+                  fontSize: 16,
+                  fontFamily: 'Eina',
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
         );
         emailController.clear();
       }

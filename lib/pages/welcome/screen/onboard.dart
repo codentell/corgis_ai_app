@@ -1,10 +1,12 @@
 import 'package:corgis_ai_app/components/progress.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/language.dart';
+import 'package:corgis_ai_app/pages/welcome/screen/level.dart';
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:corgis_ai_app/constants/index.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/goal.dart';
-import 'package:corgis_ai_app/components/CustomSliderShape.dart';
+import 'package:corgis_ai_app/components/CustomSliderShapeHorizontal.dart';
 
 class OnboardPage extends StatefulWidget {
   const OnboardPage({super.key});
@@ -22,6 +24,7 @@ class OnboardPageState extends State<OnboardPage> {
   late String referral;
   late List<Map> languages;
   late List<Map> goals;
+  late int level;
   late double currentSliderValue;
 
   @override
@@ -30,6 +33,7 @@ class OnboardPageState extends State<OnboardPage> {
       disabled = true;
       progress = 0;
       page = 0;
+      level = 2;
       language = "";
       referral = "";
       goal = "";
@@ -54,6 +58,13 @@ class OnboardPageState extends State<OnboardPage> {
       goal = goals[i]["text"]!;
     });
     print(goal);
+  }
+
+  void selectLevel(int i) {
+    setState(() {
+      disabled = false;
+      level = level;
+    });
   }
 
   @override
@@ -148,10 +159,11 @@ class OnboardPageState extends State<OnboardPage> {
                   //   disabled: disabled,
                   //   referral: referral,
                   // ),
-                  Container(
-                      color: Colors.blue,
-                      child: CustomSliderWithRiveThumb(),
-                      height: 100),
+
+                  LevelPage(
+                      selectLevel: selectLevel,
+                      disabled: disabled,
+                      level: level),
                 ]),
             bottomNavigationBar: Container(
                 padding: const EdgeInsets.only(
@@ -230,19 +242,43 @@ class OnboardPageState extends State<OnboardPage> {
                                                       ),
                                                     ),
                                                     Center(
-                                                        child: Text(
-                                                      "continue",
-                                                      style: TextStyle(
-                                                        color: disabled
-                                                            ? const Color(
-                                                                0xFF49C1F9)
-                                                            : const Color(
-                                                                0xFF1a1e4c),
-                                                        fontSize: 21,
-                                                        fontFamily: 'Eina',
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
+                                                        child: Row(
+                                                      children: [
+                                                        disabled
+                                                            ? Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        right:
+                                                                            10),
+                                                                height: 30,
+                                                                width: 30,
+                                                                child:
+                                                                    const RiveAnimation
+                                                                        .asset(
+                                                                  'assets/images/icons/lock.riv',
+                                                                  animations: [
+                                                                    'idle'
+                                                                  ],
+                                                                  fit: BoxFit
+                                                                      .contain,
+                                                                ))
+                                                            : Container(),
+                                                        Text("continue",
+                                                            style: TextStyle(
+                                                              color: disabled
+                                                                  ? const Color(
+                                                                      0xFF49C1F9)
+                                                                  : const Color(
+                                                                      0xFF1a1e4c),
+                                                              fontSize: 21,
+                                                              fontFamily:
+                                                                  'Eina',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ))
+                                                      ],
                                                     )),
                                                     Transform(
                                                       transform:
