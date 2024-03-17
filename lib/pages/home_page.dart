@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -23,6 +24,7 @@ class TestPageState extends State<TestPage> {
         color: Colors.blue,
         child: GestureDetector(
             onTap: () async {
+              //FirebaseMessaging.getInstance().deleteToken();
               Supabase.instance.client.auth.signOut();
               Navigator.pushNamed(context, "/start");
             },

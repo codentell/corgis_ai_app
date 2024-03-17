@@ -1,4 +1,6 @@
 import 'package:corgis_ai_app/components/progress.dart';
+import 'package:corgis_ai_app/pages/welcome/screen/achievement.dart';
+import 'package:corgis_ai_app/pages/welcome/screen/daily_notification.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/language.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/level.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:corgis_ai_app/constants/index.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/goal.dart';
 import 'package:corgis_ai_app/components/CustomSliderShapeHorizontal.dart';
+import 'package:corgis_ai_app/pages/welcome/screen/quest.dart';
 
 class OnboardPage extends StatefulWidget {
   const OnboardPage({super.key});
@@ -21,9 +24,14 @@ class OnboardPageState extends State<OnboardPage> {
   late bool disabled;
   late String language;
   late String goal;
+  late String dailyNotification;
+  late String achievement;
   late String referral;
   late List<Map> languages;
   late List<Map> goals;
+  late List<Map> dailyNotifications;
+  late List<Map> quests;
+  late String quest;
   late int level;
   late double currentSliderValue;
 
@@ -37,10 +45,16 @@ class OnboardPageState extends State<OnboardPage> {
       language = "";
       referral = "";
       goal = "";
+      quest = "";
+      achievement = "";
+      dailyNotification = "";
       currentSliderValue = 0;
       goals = goalList;
       languages = languageList;
+      quests = questsList;
+      dailyNotifications = dailyNotificationList;
     });
+
     super.initState();
   }
 
@@ -64,6 +78,27 @@ class OnboardPageState extends State<OnboardPage> {
     setState(() {
       disabled = false;
       level = level;
+    });
+  }
+
+  void selectAchievement(String achievement) {
+    setState(() {
+      disabled = false;
+      achievement = achievement;
+    });
+  }
+
+  void selectDailyNotification(int i) {
+    setState(() {
+      disabled = false;
+      dailyNotification = dailyNotifications[i]["text"]!;
+    });
+  }
+
+  void selectQuest(int i) {
+    setState(() {
+      disabled = false;
+      quest = quests[i]["name"]!;
     });
   }
 
@@ -138,9 +173,17 @@ class OnboardPageState extends State<OnboardPage> {
                 scrollDirection: Axis.vertical,
                 physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: (int num) {
-                  setState(() {
-                    progress = num * 10;
-                  });
+                  double increment = 100 / 5;
+
+                  if (num == 5) {
+                    setState(() {
+                      progress = 100;
+                    });
+                  } else {
+                    setState(() {
+                      progress = (num * increment);
+                    });
+                  }
                 },
                 children: [
                   GoalPage(
@@ -149,21 +192,33 @@ class OnboardPageState extends State<OnboardPage> {
                     goals: goals,
                     selectGoal: selectGoal,
                   ),
+                  AchievementPage(
+                    disabled: disabled,
+                    goal: goal,
+                    selectAchievement: selectAchievement,
+                  ),
                   LanguagePage(
                     disabled: disabled,
                     languages: languages,
                     language: language,
                     selectLanguage: selectLanguage,
                   ),
-                  // ReferralPage(
-                  //   disabled: disabled,
-                  //   referral: referral,
-                  // ),
-
                   LevelPage(
                       selectLevel: selectLevel,
                       disabled: disabled,
                       level: level),
+                  DailyNotificationPage(
+                      disabled: disabled,
+                      dailyNotification: dailyNotification,
+                      dailyNotifications: dailyNotifications,
+                      selectDailyNotification: selectDailyNotification),
+                  QuestPage(
+                    disabled: disabled,
+                    quests: quests,
+                    quest: quest,
+                    language: language,
+                    selectQuest: selectQuest,
+                  )
                 ]),
             bottomNavigationBar: Container(
                 padding: const EdgeInsets.only(
@@ -179,6 +234,10 @@ class OnboardPageState extends State<OnboardPage> {
                       Expanded(
                           child: GestureDetector(
                               onTap: () {
+                                if (progress == 100) {
+                                  Navigator.pushReplacementNamed(
+                                      context, '/home');
+                                }
                                 if (disabled == false) {
                                   setState(() {
                                     page += 1;
@@ -208,7 +267,7 @@ class OnboardPageState extends State<OnboardPage> {
                                               decoration: BoxDecoration(
                                                   color: disabled
                                                       ? const Color(0xFF202F36)
-                                                      : Color(0xFFA2FF66),
+                                                      : const Color(0xFFA2FF66),
                                                   borderRadius:
                                                       const BorderRadius.only(
                                                     topRight:

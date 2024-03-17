@@ -27,7 +27,7 @@ class WelcomePageState extends State<WelcomePage> {
     } else if (id == "2") {
       return const OnboardPage(); //OnboardPage();
     } else if (id == "3") {
-      return const ReminderPage();
+      return Container(color: Colors.yellow); //ReminderPage();
     } else {
       return Container(color: Colors.green);
     }

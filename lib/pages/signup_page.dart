@@ -1315,14 +1315,14 @@ class SignupPageState extends State<SignupPage> {
                                                                           valueColor:
                                                                               AlwaysStoppedAnimation<Color>(Color(0xFF1a1e4c)),
                                                                         )
-                                                                      : Icon(
+                                                                      : const Icon(
                                                                           size:
                                                                               45.0,
                                                                           Icons
                                                                               .email,
                                                                           color:
                                                                               Colors.white)),
-                                                          Text("email",
+                                                          const Text("email",
                                                               style: TextStyle(
                                                                 color: Colors
                                                                     .white,

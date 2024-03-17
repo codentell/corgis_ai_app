@@ -174,14 +174,14 @@ class LevelPageState extends State<LevelPage> {
                           : Text.rich(
                               TextSpan(
                                 text: 'What\'s your ',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
                                   fontFamily: 'Eina',
                                   fontWeight: FontWeight.bold,
                                 ),
                                 children: <TextSpan>[
-                                  TextSpan(
+                                  const TextSpan(
                                     text: 'py',
                                     style: TextStyle(
                                       color: Colors.blue,
@@ -190,7 +190,7 @@ class LevelPageState extends State<LevelPage> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  TextSpan(
+                                  const TextSpan(
                                     text: 'thon\n',
                                     style: TextStyle(
                                       color: Colors.white,
@@ -210,7 +210,7 @@ class LevelPageState extends State<LevelPage> {
                                   ),
                                   TextSpan(
                                     text: ' $selectedLevel',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 24,
                                       fontFamily: 'Eina',

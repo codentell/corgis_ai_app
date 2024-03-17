@@ -83,9 +83,16 @@ flutter:
     - assets/images/icons/apple_light.riv
     - assets/images/icons/lock.riv
     - assets/images/icons/fun.riv
+    - assets/images/icons/chat.riv
     - assets/images/graphics/mouse.riv
     - assets/images/icons/star.riv
+    - assets/images/icons/casual.riv
+    - assets/images/icons/regular.riv
+    - assets/images/icons/serious.riv
+    - assets/images/icons/intense.riv
     - assets/images/icons/grow.riv
+    - assets/images/icons/flash.riv
+    - assets/images/icons/watch.riv
     - assets/images/icons/other.riv
    
 
