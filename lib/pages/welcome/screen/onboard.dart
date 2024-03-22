@@ -1,6 +1,7 @@
 import 'package:corgis_ai_app/components/progress.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/achievement.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/daily_notification.dart';
+import 'package:corgis_ai_app/pages/welcome/screen/discovery.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/language.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/level.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +28,12 @@ class OnboardPageState extends State<OnboardPage> {
   late String dailyNotification;
   late String achievement;
   late String referral;
+  late String discovery;
   late List<Map> languages;
   late List<Map> goals;
   late List<Map> dailyNotifications;
   late List<Map> quests;
+  late List<Map> discoveries;
   late String quest;
   late int level;
   late double currentSliderValue;
@@ -48,11 +51,13 @@ class OnboardPageState extends State<OnboardPage> {
       quest = "";
       achievement = "";
       dailyNotification = "";
+      discovery = "";
       currentSliderValue = 0;
       goals = goalList;
       languages = languageList;
       quests = questsList;
       dailyNotifications = dailyNotificationList;
+      discoveries = discoveryList;
     });
 
     super.initState();
@@ -99,6 +104,13 @@ class OnboardPageState extends State<OnboardPage> {
     setState(() {
       disabled = false;
       quest = quests[i]["name"]!;
+    });
+  }
+
+  void selectDiscovery(int i) {
+    setState(() {
+      disabled = false;
+      discovery = discoveries[i]["discover"]!;
     });
   }
 
@@ -173,9 +185,9 @@ class OnboardPageState extends State<OnboardPage> {
                 scrollDirection: Axis.vertical,
                 physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: (int num) {
-                  double increment = 100 / 5;
+                  double increment = 100 / 6;
 
-                  if (num == 5) {
+                  if (num == 6) {
                     setState(() {
                       progress = 100;
                     });
@@ -218,6 +230,12 @@ class OnboardPageState extends State<OnboardPage> {
                     quest: quest,
                     language: language,
                     selectQuest: selectQuest,
+                  ),
+                  DiscoveryPage(
+                    disabled: disabled,
+                    discoveries: discoveries,
+                    discovery: discovery,
+                    selectDiscovery: selectDiscovery,
                   )
                 ]),
             bottomNavigationBar: Container(
@@ -236,7 +254,7 @@ class OnboardPageState extends State<OnboardPage> {
                               onTap: () {
                                 if (progress == 100) {
                                   Navigator.pushReplacementNamed(
-                                      context, '/home');
+                                      context, '/subscribe');
                                 }
                                 if (disabled == false) {
                                   setState(() {

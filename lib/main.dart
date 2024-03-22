@@ -1,4 +1,5 @@
 import 'package:corgis_ai_app/pages/signup_page.dart';
+import 'package:corgis_ai_app/pages/subscribe_page.dart';
 import 'package:flutter/material.dart';
 import 'package:corgis_ai_app/pages/start_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -73,6 +74,7 @@ class AppState extends State<App> {
         "/login": (context) => const LoginPage(),
         "/start": (context) => const StartPage(),
         "/home": (context) => const HomePage(),
+        "/subscribe": (context) => const SubscribePage(),
       },
       onGenerateRoute: (RouteSettings settings) {
         final Uri uri = Uri.parse(settings.name!);
