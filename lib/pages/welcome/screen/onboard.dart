@@ -9,7 +9,6 @@ import 'package:rive/rive.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:corgis_ai_app/constants/index.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/goal.dart';
-import 'package:corgis_ai_app/components/CustomSliderShapeHorizontal.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/quest.dart';
 
 class OnboardPage extends StatefulWidget {

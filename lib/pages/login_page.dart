@@ -730,11 +730,12 @@ class LoginPageState extends State<LoginPage> {
                                                         ),
                                                         recognizer:
                                                             TapGestureRecognizer()
-                                                              ..onTap =
-                                                                  () => {
-                                                                        Navigator.of(context)
-                                                                            .pushNamed('/welcome/1')
-                                                                      },
+                                                              ..onTap = () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pushNamed(
+                                                                        '/welcome/1');
+                                                              },
                                                       ),
                                                     ],
                                                     speed: const Duration(

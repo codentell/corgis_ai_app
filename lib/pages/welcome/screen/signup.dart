@@ -1,12 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:corgis_ai_app/components/TyperAnimatedTextCustom.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:corgis_ai_app/main.dart';
 import 'package:rive/rive.dart';
 import 'package:simple_animations/animation_builder/custom_animation_builder.dart';
-import 'package:uuid/uuid.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});

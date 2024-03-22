@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:corgis_ai_app/main.dart';
-import 'package:uuid/uuid.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:corgis_ai_app/components/TyperAnimatedTextCustom.dart';
 import 'package:simple_animations/simple_animations.dart';

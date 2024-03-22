@@ -1,9 +1,6 @@
-import 'package:corgis_ai_app/pages/welcome/screen/intro.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/onboard.dart';
-import 'package:corgis_ai_app/pages/welcome/screen/reminder.dart';
 import 'package:flutter/material.dart';
 import 'package:corgis_ai_app/pages/welcome/screen/hello.dart';
-import 'package:corgis_ai_app/pages/signup_page.dart';
 
 class WelcomePage extends StatefulWidget {
   final String id;
