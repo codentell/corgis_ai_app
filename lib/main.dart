@@ -1,3 +1,4 @@
+import 'package:corgis_ai_app/pages/pricing_page.dart';
 import 'package:corgis_ai_app/pages/signup_page.dart';
 import 'package:corgis_ai_app/pages/subscribe_page.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'firebase_options.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'store_config.dart';
+import 'package:corgis_ai_app/constants/revenue_cat.dart';
+import 'dart:io';
 
 void main() async {
+  if (Platform.isIOS || Platform.isMacOS) {
+    StoreConfig(
+      store: Store.appStore,
+      apiKey: appleApiKey,
+    );
+  }
+
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
@@ -23,6 +35,8 @@ void main() async {
     debug: true,
     //authFlowType: AuthFlowType.pkce,
   );
+
+  await revenueCatConfigure();
   runApp(const App());
 }
 
@@ -75,6 +89,7 @@ class AppState extends State<App> {
         "/start": (context) => const StartPage(),
         "/home": (context) => const HomePage(),
         "/subscribe": (context) => const SubscribePage(),
+        "/pricing": (context) => const PricingPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
         final Uri uri = Uri.parse(settings.name!);
@@ -95,5 +110,17 @@ class AppState extends State<App> {
         return null;
       },
     );
+  }
+}
+
+Future<void> revenueCatConfigure() async {
+  // Enable debug logs before calling `configure`.
+  await Purchases.setLogLevel(LogLevel.debug);
+
+  PurchasesConfiguration configuration;
+
+  configuration = PurchasesConfiguration('appl_phOPDTrJBFYlHQpljdQKJziYFjv');
+  if (configuration != null) {
+    await Purchases.configure(configuration);
   }
 }

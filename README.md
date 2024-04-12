@@ -122,9 +122,11 @@ The first challenge is free
 The first is free, and the rest is blocked. 
 15 minutes on the phone. 
  
+Monthly + 1 week trial 
+9.99 standard 
 
-
-
+Annual + 1 week trial
+99.99 over 15% discount
 
 
  

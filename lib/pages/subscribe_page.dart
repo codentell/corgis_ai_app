@@ -102,7 +102,7 @@ class SubscribePageState extends State<SubscribePage> {
                                       child: Row(children: [
                                         Expanded(
                                             flex: 2,
-                                            child: Text("Level content",
+                                            child: Text("First Level",
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     color: Colors.white,
@@ -123,7 +123,6 @@ class SubscribePageState extends State<SubscribePage> {
                                   child: Container(
                                       height: 10,
                                       padding: EdgeInsets.all(5),
-                                      color: Colors.green,
                                       child: Row(children: [
                                         Expanded(
                                             flex: 2,
@@ -145,7 +144,6 @@ class SubscribePageState extends State<SubscribePage> {
                                   child: Container(
                                       height: 10,
                                       padding: EdgeInsets.all(5),
-                                      color: Colors.green,
                                       child: Row(children: [
                                         Expanded(
                                             flex: 2,
@@ -168,7 +166,6 @@ class SubscribePageState extends State<SubscribePage> {
                                   child: Container(
                                       height: 10,
                                       padding: EdgeInsets.all(5),
-                                      color: Colors.green,
                                       child: Row(children: [
                                         Expanded(
                                             flex: 2,
@@ -190,11 +187,10 @@ class SubscribePageState extends State<SubscribePage> {
                                   child: Container(
                                       height: 10,
                                       padding: EdgeInsets.all(5),
-                                      color: Colors.green,
                                       child: Row(children: [
                                         Expanded(
                                             flex: 2,
-                                            child: Text("No ads",
+                                            child: Text("Mistake analysis",
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                     color: Colors.white,
@@ -212,7 +208,6 @@ class SubscribePageState extends State<SubscribePage> {
                                   child: Container(
                                       height: 10,
                                       padding: EdgeInsets.all(5),
-                                      color: Colors.green,
                                       child: Row(children: [
                                         Expanded(
                                             flex: 2,
@@ -234,7 +229,7 @@ class SubscribePageState extends State<SubscribePage> {
             bottomNavigationBar: Container(
                 padding: const EdgeInsets.only(
                     top: 20, right: 20, left: 20, bottom: 20),
-                height: 125,
+                height: 200,
                 color: const Color(0xFF0A062F),
                 child: Center(
                     child: Column(
@@ -242,7 +237,9 @@ class SubscribePageState extends State<SubscribePage> {
                         children: [
                       Expanded(
                           child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/pricing');
+                              },
                               child: CustomAnimationBuilder<double>(
                                   tween: Tween<double>(begin: 0.0, end: 1.0),
                                   duration: const Duration(milliseconds: 500),
@@ -271,28 +268,11 @@ class SubscribePageState extends State<SubscribePage> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: [
-                                                    Transform(
-                                                      transform:
-                                                          Matrix4.skewX(-0.5),
-                                                      origin: const Offset(
-                                                          0.0, 0.0),
-                                                      child: Container(
-                                                        height: 100.0,
-                                                        width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width <
-                                                                500
-                                                            ? 70
-                                                            : 150.0,
-                                                        color: const Color(
-                                                            0xFFB9FF8C),
-                                                      ),
-                                                    ),
                                                     const Center(
                                                         child: Row(
                                                       children: [
-                                                        Text("continue",
+                                                        Text(
+                                                            "start my free 7 days",
                                                             style: TextStyle(
                                                               color: Color(
                                                                   0xFF1a1e4c),
@@ -305,24 +285,6 @@ class SubscribePageState extends State<SubscribePage> {
                                                             ))
                                                       ],
                                                     )),
-                                                    Transform(
-                                                      transform:
-                                                          Matrix4.skewX(-0.5),
-                                                      origin: const Offset(
-                                                          0.0, 50.0),
-                                                      child: Container(
-                                                        height: 100.0,
-                                                        width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width <
-                                                                500
-                                                            ? 70
-                                                            : 150.0,
-                                                        color: const Color(
-                                                            0xFFB9FF8C),
-                                                      ),
-                                                    ),
                                                   ])),
                                           Container(
                                             height: 15,
@@ -348,6 +310,15 @@ class SubscribePageState extends State<SubscribePage> {
                                           ),
                                         ]));
                                   }))),
+                      Expanded(
+                          child: Container(
+                              child: Center(
+                                  child: Text("no thanks",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 21,
+                                          fontFamily: 'Eina',
+                                          fontWeight: FontWeight.bold)))))
                     ])))));
   }
 }

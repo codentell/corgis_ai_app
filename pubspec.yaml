@@ -50,6 +50,7 @@ dependencies:
   email_validator: ^2.1.17
   sign_in_with_apple: ^6.0.0
   crypto: ^3.0.3
+  purchases_flutter: ^6.24.0
 
 dev_dependencies:
   flutter_test:
